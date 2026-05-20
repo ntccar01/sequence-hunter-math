@@ -82,6 +82,25 @@ function loadCloudDashboard() {
   });
 }
 
+async function backupAndClearCloudRecords() {
+  if (!config.useGoogleSheet || !config.apiUrl) {
+    return { ok: false, skipped: true };
+  }
+
+  await fetch(config.apiUrl, {
+    method: "POST",
+    mode: "no-cors",
+    headers: {
+      "Content-Type": "text/plain;charset=utf-8"
+    },
+    body: JSON.stringify({
+      action: "backupAndClear"
+    })
+  });
+
+  return { ok: true };
+}
+
 function getStudentStats(answers) {
   return students.map((student) => {
     const records = answers.filter((record) => record.studentId === student.studentId);
@@ -231,11 +250,25 @@ function renderActivity(answers, studentStats) {
     : `<div class="empty">目前尚無作答紀錄。請先到學生端測試送出答案。</div>`;
 }
 
-function clearLocalRecords() {
-  const ok = window.confirm("確定要清空本機測試作答紀錄嗎？這不會影響題庫。");
+async function clearLocalRecords() {
+  const ok = window.confirm("確定要備份並清空目前作答紀錄嗎？題庫與學生名單不會被刪除。");
   if (!ok) return;
+  const clearButton = document.querySelector("#clearButton");
+  clearButton.disabled = true;
+  clearButton.textContent = "清空中...";
   localStorage.removeItem(storageKey);
-  render();
+  try {
+    await backupAndClearCloudRecords();
+    window.setTimeout(render, 1500);
+  } catch (error) {
+    console.warn("Cloud backup and clear failed.", error);
+    window.alert("雲端清空沒有成功，請檢查 Apps Script 部署權限後再試一次。");
+  } finally {
+    window.setTimeout(() => {
+      clearButton.disabled = false;
+      clearButton.textContent = "備份並清空";
+    }, 1800);
+  }
 }
 
 document.querySelector("#refreshButton").addEventListener("click", render);
