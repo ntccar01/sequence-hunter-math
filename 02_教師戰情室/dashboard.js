@@ -43,6 +43,10 @@ function normalizeAnswers(records) {
   }));
 }
 
+function getStudentDisplayName(student) {
+  return student.nickname || student.studentName || student.studentId;
+}
+
 function loadCloudDashboard() {
   if (!config.useGoogleSheet || !config.apiUrl) {
     return Promise.resolve(null);
@@ -102,6 +106,8 @@ async function render() {
       if (Array.isArray(cloudData.students) && cloudData.students.length) {
         activeStudentsList = cloudData.students.map((student) => ({
           studentId: student.studentId,
+          studentName: student.studentName,
+          nickname: student.nickname,
           groupId: student.groupId,
           groupName: student.groupName || student.groupId
         }));
@@ -133,7 +139,7 @@ function renderWithData(answers, studentList, dataSource) {
   renderStudents(studentStats);
   renderGroups(studentStats);
   renderHotQuestions(answers);
-  renderActivity(answers);
+  renderActivity(answers, studentStats);
 }
 
 function getStudentStatsForList(answers, studentList) {
@@ -156,7 +162,7 @@ function renderStudents(studentStats) {
     ? rows.map((row, index) => `
       <div class="rank-row">
         <span class="rank">${index + 1}</span>
-        <div class="name">${row.studentId}<span class="sub">${row.groupName}｜提示 ${row.hints} 次</span></div>
+        <div class="name">${getStudentDisplayName(row)}<span class="sub">${row.groupName}｜${row.studentId}｜提示 ${row.hints} 次</span></div>
         <div class="small-value">${row.passed}/${questions.length} 題</div>
         <div class="value">${row.exp} EXP</div>
       </div>
@@ -211,14 +217,16 @@ function renderHotQuestions(answers) {
     : `<div class="empty">讀取中...</div>`;
 }
 
-function renderActivity(answers) {
+function renderActivity(answers, studentStats) {
   const rows = answers.slice(-8).reverse();
+  const studentMap = new Map(studentStats.map((student) => [student.studentId, student]));
   document.querySelector("#activityLog").innerHTML = rows.length
     ? rows.map((record) => {
       const question = getQuestion(record.levelId);
+      const student = studentMap.get(record.studentId);
       const status = record.isCorrect ? "通過" : "再挑戰";
       const statusClass = record.isCorrect ? "pass" : "fail";
-      return `<div class="log-item"><span class="${statusClass}">${status}</span>｜${record.studentId}｜${question?.levelName || record.levelId}｜${record.answerSubmitted}</div>`;
+      return `<div class="log-item"><span class="${statusClass}">${status}</span>｜${getStudentDisplayName(student || record)}｜${question?.levelName || record.levelId}｜${record.answerSubmitted}</div>`;
     }).join("")
     : `<div class="empty">目前尚無作答紀錄。請先到學生端測試送出答案。</div>`;
 }

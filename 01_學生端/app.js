@@ -1,4 +1,4 @@
-const students = Array.from({ length: 15 }, (_, index) => {
+let students = Array.from({ length: 15 }, (_, index) => {
   const id = `S${String(index + 1).padStart(2, "0")}`;
   const groupNumber = Math.floor(index / 3) + 1;
   return {
@@ -54,6 +54,45 @@ function getAnswers() {
 
 function setAnswers(records) {
   localStorage.setItem(storageKey, JSON.stringify(records));
+}
+
+function getStudentDisplayName(student) {
+  return student.nickname || student.studentName || student.studentId;
+}
+
+function loadCloudStudents() {
+  if (!config.useGoogleSheet || !config.apiUrl) {
+    return Promise.resolve(null);
+  }
+
+  return new Promise((resolve, reject) => {
+    const callbackName = `sequenceHunterStudents_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+    const script = document.createElement("script");
+    const separator = config.apiUrl.includes("?") ? "&" : "?";
+    const timeout = window.setTimeout(() => {
+      cleanup();
+      reject(new Error("students timeout"));
+    }, 8000);
+
+    function cleanup() {
+      window.clearTimeout(timeout);
+      delete window[callbackName];
+      script.remove();
+    }
+
+    window[callbackName] = (data) => {
+      cleanup();
+      resolve(data);
+    };
+
+    script.onerror = () => {
+      cleanup();
+      reject(new Error("students load failed"));
+    };
+
+    script.src = `${config.apiUrl}${separator}action=students&callback=${callbackName}`;
+    document.body.appendChild(script);
+  });
 }
 
 async function saveAnswerToCloud(record) {
@@ -139,11 +178,11 @@ function renderStudents() {
   studentGrid.innerHTML = "";
   students.forEach((student) => {
     const button = document.createElement("button");
-    button.textContent = student.studentId;
+    button.textContent = getStudentDisplayName(student);
     button.className = currentStudent?.studentId === student.studentId ? "active" : "";
     button.addEventListener("click", () => {
       currentStudent = student;
-      studentBadge.textContent = `獵人 ${student.studentId}｜${student.groupName}`;
+      studentBadge.textContent = `獵人 ${getStudentDisplayName(student)}｜${student.groupName}`;
       updateExp();
       renderStudents();
       renderMissions();
@@ -224,7 +263,7 @@ function showFeedback(type, message) {
 function submitAnswer() {
   try {
     if (!currentStudent) {
-      showFeedback("wrong", "請先選擇左側的獵人身份，例如 S01，再提交任務。");
+      showFeedback("wrong", "請先選擇左側的獵人身份，再提交任務。");
       return;
     }
 
@@ -280,6 +319,31 @@ function submitAnswer() {
 hintButton.addEventListener("click", showHint);
 submitButton.addEventListener("click", submitAnswer);
 
-renderStudents();
-renderMissions();
-renderQuestion(currentQuestion);
+async function init() {
+  renderStudents();
+  renderMissions();
+  renderQuestion(currentQuestion);
+
+  try {
+    const cloudData = await loadCloudStudents();
+    if (cloudData?.ok && Array.isArray(cloudData.students) && cloudData.students.length) {
+      students = cloudData.students.map((student) => ({
+        studentId: student.studentId,
+        studentName: student.studentName,
+        nickname: student.nickname || student.studentName || student.studentId,
+        groupId: student.groupId,
+        groupName: student.groupName || student.groupId
+      }));
+      if (currentStudent) {
+        currentStudent = students.find((student) => student.studentId === currentStudent.studentId) || currentStudent;
+        studentBadge.textContent = `獵人 ${getStudentDisplayName(currentStudent)}｜${currentStudent.groupName}`;
+      }
+      renderStudents();
+      renderMissions();
+    }
+  } catch (error) {
+    console.warn("Cloud students unavailable; using default student list.", error);
+  }
+}
+
+init();
