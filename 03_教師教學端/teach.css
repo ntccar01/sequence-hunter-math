@@ -234,9 +234,40 @@ button {
   grid-row: span 2;
 }
 
+.demo-panel {
+  grid-column: 1 / -1;
+}
+
+.flow-panel.collapsed {
+  grid-row: span 1;
+}
+
 .panel h3 {
   font-size: 30px;
   color: var(--gold);
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.panel-header p {
+  margin-top: 8px;
+  font-size: 18px;
+  line-height: 1.45;
+}
+
+.toggle-button {
+  min-height: 44px;
+  padding: 0 18px;
+  flex: 0 0 auto;
+  background: rgba(255, 209, 26, 0.95);
+  color: #201400;
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow: none;
 }
 
 ul {
@@ -252,6 +283,10 @@ ul {
 .timeline {
   display: grid;
   gap: 12px;
+}
+
+.flow-panel.collapsed .timeline {
+  display: none;
 }
 
 .time-row {
@@ -293,6 +328,13 @@ ul {
   border: 3px solid #d7a436;
 }
 
+.demo-workbench {
+  display: grid;
+  grid-template-columns: minmax(300px, 0.9fr) minmax(360px, 1.1fr);
+  gap: 18px;
+  align-items: stretch;
+}
+
 .demo-label {
   justify-self: start;
   padding: 5px 12px;
@@ -320,6 +362,97 @@ ul {
   padding: 10px 12px;
   border-radius: 12px;
   background: rgba(255, 255, 255, 0.54);
+}
+
+.whiteboard-card {
+  display: grid;
+  grid-template-rows: auto auto minmax(280px, 1fr);
+  gap: 14px;
+  min-height: 430px;
+  padding: 18px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--line);
+}
+
+.whiteboard-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.whiteboard-head span {
+  display: block;
+  margin-top: 8px;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.clear-board {
+  min-height: 42px;
+  padding: 0 16px;
+  background: rgba(255, 77, 77, 0.92);
+  color: #fff;
+  box-shadow: none;
+}
+
+.whiteboard-tools {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.tool {
+  min-height: 40px;
+  padding: 0 14px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--text);
+  box-shadow: none;
+}
+
+.tool.active {
+  background: var(--gold);
+  color: #201400;
+}
+
+.whiteboard-tools label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.08);
+  font-weight: 900;
+}
+
+.whiteboard-tools input {
+  width: 120px;
+  accent-color: var(--gold);
+}
+
+.whiteboard-surface {
+  min-height: 280px;
+  border: 3px solid #d8b457;
+  border-radius: 18px;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.72)),
+    repeating-linear-gradient(0deg, transparent 0 34px, rgba(80, 113, 160, 0.16) 35px 36px);
+  overflow: hidden;
+}
+
+#whiteboard {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 280px;
+  touch-action: none;
+  cursor: crosshair;
 }
 
 .student-panel p {
@@ -370,7 +503,8 @@ ul {
 
 @media (max-width: 1080px) {
   .layout,
-  .grid {
+  .grid,
+  .demo-workbench {
     grid-template-columns: 1fr;
   }
 

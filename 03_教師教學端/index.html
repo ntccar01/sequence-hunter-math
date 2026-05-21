@@ -50,17 +50,49 @@
           <ul id="goals"></ul>
         </article>
 
-        <article class="panel flow-panel">
-          <h3>40 分鐘流程</h3>
+        <article class="panel flow-panel collapsed" id="flowPanel">
+          <div class="panel-header">
+            <div>
+              <h3>40 分鐘流程</h3>
+              <p id="flowSummary">點開查看本節教師流程。</p>
+            </div>
+            <button class="toggle-button" id="flowToggle" type="button" aria-expanded="false" aria-controls="timeline">展開</button>
+          </div>
           <div class="timeline" id="timeline"></div>
         </article>
 
         <article class="panel demo-panel">
           <h3>老師示範</h3>
-          <div class="demo-card">
-            <p class="demo-label">示範題</p>
-            <p class="demo-question" id="demoQuestion"></p>
-            <div class="demo-steps" id="demoSteps"></div>
+          <div class="demo-workbench">
+            <div class="demo-card">
+              <p class="demo-label">示範題</p>
+              <p class="demo-question" id="demoQuestion"></p>
+              <div class="demo-steps" id="demoSteps"></div>
+            </div>
+
+            <div class="whiteboard-card">
+              <div class="whiteboard-head">
+                <div>
+                  <p class="demo-label">教師白板</p>
+                  <span>可用觸控筆、滑鼠或手指書寫。</span>
+                </div>
+                <button class="clear-board" id="clearBoardButton" type="button">清空</button>
+              </div>
+              <div class="whiteboard-tools" aria-label="白板工具">
+                <button class="tool active" type="button" data-tool="pen" data-color="#111827">黑</button>
+                <button class="tool" type="button" data-tool="pen" data-color="#d92d20">紅</button>
+                <button class="tool" type="button" data-tool="pen" data-color="#1d4ed8">藍</button>
+                <button class="tool" type="button" data-tool="pen" data-color="#d6a000">黃</button>
+                <button class="tool" type="button" data-tool="eraser">橡皮擦</button>
+                <label>
+                  粗細
+                  <input id="brushSize" type="range" min="3" max="18" value="7">
+                </label>
+              </div>
+              <div class="whiteboard-surface">
+                <canvas id="whiteboard" aria-label="教師白板書寫區"></canvas>
+              </div>
+            </div>
           </div>
         </article>
 

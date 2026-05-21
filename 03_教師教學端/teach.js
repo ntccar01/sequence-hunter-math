@@ -81,6 +81,9 @@ const lessonTabs = document.querySelector("#lessonTabs");
 const lessonTag = document.querySelector("#lessonTag");
 const lessonTitle = document.querySelector("#lessonTitle");
 const goals = document.querySelector("#goals");
+const flowPanel = document.querySelector("#flowPanel");
+const flowSummary = document.querySelector("#flowSummary");
+const flowToggle = document.querySelector("#flowToggle");
 const timeline = document.querySelector("#timeline");
 const demoQuestion = document.querySelector("#demoQuestion");
 const demoSteps = document.querySelector("#demoSteps");
@@ -91,6 +94,17 @@ const studentUrl = document.querySelector("#studentUrl");
 const qrImage = document.querySelector("#qrImage");
 const launchButton = document.querySelector("#launchButton");
 const copyButton = document.querySelector("#copyButton");
+const whiteboard = document.querySelector("#whiteboard");
+const clearBoardButton = document.querySelector("#clearBoardButton");
+const brushSize = document.querySelector("#brushSize");
+const toolButtons = document.querySelectorAll(".tool");
+let isFlowOpen = false;
+let whiteboardContext = null;
+let isDrawing = false;
+let boardTool = "pen";
+let boardColor = "#111827";
+let boardSize = Number(brushSize.value);
+let lastPoint = null;
 
 function getStudentUrl() {
   const path = window.location.pathname;
@@ -116,6 +130,12 @@ function renderTimeline(items) {
   `).join("");
 }
 
+function updateFlowPanel() {
+  flowPanel.classList.toggle("collapsed", !isFlowOpen);
+  flowToggle.textContent = isFlowOpen ? "收合" : "展開";
+  flowToggle.setAttribute("aria-expanded", String(isFlowOpen));
+}
+
 function renderTabs() {
   lessonTabs.innerHTML = lessons.map((lesson) => `
     <button class="lesson-tab ${lesson.id === activeLesson.id ? "active" : ""}" type="button" data-lesson="${lesson.id}">
@@ -137,7 +157,9 @@ function render() {
   lessonTag.textContent = activeLesson.tag;
   lessonTitle.textContent = activeLesson.title;
   renderList(goals, activeLesson.goals);
+  flowSummary.textContent = `${activeLesson.timeline.length} 個段落；需要看老師流程時再展開。`;
   renderTimeline(activeLesson.timeline);
+  updateFlowPanel();
   demoQuestion.textContent = activeLesson.demoQuestion;
   demoSteps.innerHTML = activeLesson.demoSteps.map((step, index) => `<div>${index + 1}. ${step}</div>`).join("");
   renderList(observe, activeLesson.observe);
@@ -146,11 +168,112 @@ function render() {
   studentUrl.textContent = url;
   qrImage.src = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(url)}`;
   renderTabs();
+  resizeWhiteboard(true);
 }
 
 launchButton.addEventListener("click", () => {
   window.open(getStudentUrl(), "_blank", "noopener,noreferrer");
 });
+
+flowToggle.addEventListener("click", () => {
+  isFlowOpen = !isFlowOpen;
+  updateFlowPanel();
+});
+
+function resizeWhiteboard(shouldClear = false) {
+  const rect = whiteboard.getBoundingClientRect();
+  const ratio = window.devicePixelRatio || 1;
+  const width = Math.max(1, Math.floor(rect.width));
+  const height = Math.max(1, Math.floor(rect.height));
+  const snapshot = !shouldClear && whiteboard.width ? whiteboard.toDataURL() : null;
+
+  whiteboard.width = Math.floor(width * ratio);
+  whiteboard.height = Math.floor(height * ratio);
+  whiteboard.style.width = `${width}px`;
+  whiteboard.style.height = `${height}px`;
+
+  whiteboardContext = whiteboard.getContext("2d");
+  whiteboardContext.setTransform(ratio, 0, 0, ratio, 0, 0);
+  whiteboardContext.lineCap = "round";
+  whiteboardContext.lineJoin = "round";
+
+  if (snapshot) {
+    const image = new Image();
+    image.onload = () => whiteboardContext.drawImage(image, 0, 0, width, height);
+    image.src = snapshot;
+  } else {
+    clearWhiteboard();
+  }
+}
+
+function clearWhiteboard() {
+  if (!whiteboardContext) return;
+  const rect = whiteboard.getBoundingClientRect();
+  whiteboardContext.clearRect(0, 0, rect.width, rect.height);
+}
+
+function getBoardPoint(event) {
+  const rect = whiteboard.getBoundingClientRect();
+  return {
+    x: event.clientX - rect.left,
+    y: event.clientY - rect.top
+  };
+}
+
+function drawLine(point) {
+  if (!whiteboardContext || !lastPoint) return;
+  whiteboardContext.globalCompositeOperation = boardTool === "eraser" ? "destination-out" : "source-over";
+  whiteboardContext.strokeStyle = boardColor;
+  whiteboardContext.lineWidth = boardTool === "eraser" ? boardSize * 1.8 : boardSize;
+  whiteboardContext.beginPath();
+  whiteboardContext.moveTo(lastPoint.x, lastPoint.y);
+  whiteboardContext.lineTo(point.x, point.y);
+  whiteboardContext.stroke();
+  lastPoint = point;
+}
+
+function beginDrawing(event) {
+  event.preventDefault();
+  isDrawing = true;
+  whiteboard.setPointerCapture(event.pointerId);
+  lastPoint = getBoardPoint(event);
+}
+
+function continueDrawing(event) {
+  if (!isDrawing) return;
+  event.preventDefault();
+  drawLine(getBoardPoint(event));
+}
+
+function endDrawing(event) {
+  if (!isDrawing) return;
+  isDrawing = false;
+  lastPoint = null;
+  if (whiteboard.hasPointerCapture(event.pointerId)) {
+    whiteboard.releasePointerCapture(event.pointerId);
+  }
+}
+
+toolButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    boardTool = button.dataset.tool || "pen";
+    if (button.dataset.color) boardColor = button.dataset.color;
+    toolButtons.forEach((item) => item.classList.remove("active"));
+    button.classList.add("active");
+  });
+});
+
+brushSize.addEventListener("input", () => {
+  boardSize = Number(brushSize.value);
+});
+
+clearBoardButton.addEventListener("click", clearWhiteboard);
+whiteboard.addEventListener("pointerdown", beginDrawing);
+whiteboard.addEventListener("pointermove", continueDrawing);
+whiteboard.addEventListener("pointerup", endDrawing);
+whiteboard.addEventListener("pointercancel", endDrawing);
+whiteboard.addEventListener("pointerleave", endDrawing);
+window.addEventListener("resize", () => resizeWhiteboard(false));
 
 copyButton.addEventListener("click", async () => {
   try {
