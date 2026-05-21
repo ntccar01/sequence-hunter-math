@@ -247,6 +247,11 @@ button {
   order: -1;
 }
 
+.guide-panel {
+  grid-column: 1 / -1;
+  order: -2;
+}
+
 .flow-panel.collapsed {
   grid-row: span 1;
 }
@@ -267,6 +272,60 @@ button {
   margin-top: 8px;
   font-size: 18px;
   line-height: 1.45;
+}
+
+.guide-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.guide-card {
+  display: grid;
+  gap: 12px;
+  align-content: start;
+  min-height: 180px;
+  padding: 18px;
+  border: 1px solid rgba(255, 209, 26, 0.32);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.guide-card.feature {
+  grid-column: span 2;
+  background: linear-gradient(180deg, rgba(255, 209, 26, 0.18), rgba(255, 255, 255, 0.08));
+}
+
+.guide-card strong {
+  color: var(--gold);
+  font-size: 24px;
+}
+
+.guide-card p {
+  color: var(--text);
+  font-size: 19px;
+  line-height: 1.55;
+}
+
+.guide-example {
+  display: inline-block;
+  padding: 8px 12px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff8d2;
+  font-size: 22px;
+  font-weight: 900;
+  line-height: 1.35;
+}
+
+.guide-talk {
+  color: var(--muted);
+  font-size: 17px;
+  line-height: 1.5;
+}
+
+.guide-panel.empty {
+  display: none;
 }
 
 .toggle-button {
@@ -544,8 +603,13 @@ ul {
   .layout,
   .grid,
   .demo-workbench,
+  .guide-grid,
   .lesson-bar {
     grid-template-columns: 1fr;
+  }
+
+  .guide-card.feature {
+    grid-column: auto;
   }
 }
 

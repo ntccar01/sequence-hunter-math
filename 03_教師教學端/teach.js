@@ -9,12 +9,57 @@ const lessons = [
       "能從生活中找出有順序的例子。",
       "能把 n=1,2,3,4,5 代入一般項，寫出前 5 項。"
     ],
+    guideIntro: "這一節先讓學生知道「數列不是隨便一堆數字」，而是一串有順序、可觀察規則的數。",
+    guideBlocks: [
+      {
+        title: "先看生活順序",
+        example: "座號 1,2,3,4...",
+        talk: "請學生說出生活中有順序的例子，例如座號、日期、樓層、排隊號碼。",
+        feature: true
+      },
+      {
+        title: "什麼是數列",
+        example: "2, 4, 6, 8",
+        talk: "數列是一串依序排列的數。重點不是數字很難，而是有順序。"
+      },
+      {
+        title: "每一個數叫一項",
+        example: "第 1 項、第 2 項",
+        talk: "先讓學生用手指指出第一項、第二項，建立項的位置感。"
+      },
+      {
+        title: "前 5 項的意思",
+        example: "n=1,2,3,4,5",
+        talk: "前 5 項不是任選 5 個數，而是從第 1 項開始依序算到第 5 項。"
+      },
+      {
+        title: "n 代表位置",
+        example: "n=3 是第 3 項",
+        talk: "提醒學生 n 不是答案，是告訴我們要算第幾項。"
+      },
+      {
+        title: "一般項是規則",
+        example: "2n+1",
+        talk: "一般項像一台機器，把 n 放進去，就會吐出那一項的數字。"
+      },
+      {
+        title: "代入一格一格算",
+        example: "n=1 → 2×1+1",
+        talk: "建議學生在學習單畫 5 格，分別寫 n=1 到 n=5。"
+      },
+      {
+        title: "再進示範題",
+        example: "先寫 n，再算值",
+        talk: "學生知道 n 是位置後，再進到下方老師示範題。"
+      }
+    ],
     timeline: [
-      ["0-5", "開場與登入", "請學生選獵人身份，說明今天先測試學習方式。"],
-      ["5-10", "生活中的數列", "請學生在學習單寫一個生活中的順序例子。"],
-      ["10-22", "前 5 項代入", "示範一次代入流程，再讓學生挑戰網頁任務。"],
-      ["22-34", "平方概念", "巡視學生是否知道平方是自己乘自己。"],
-      ["34-40", "小組互助", "2 到 3 人討論卡住處，老師只給方向。"],
+      ["0-5", "開場與登入", "請學生選獵人身份，說明今天先用網頁、課本與學習單一起學。"],
+      ["5-12", "生活中的順序", "請學生說或寫一個生活中有順序的例子，先建立數列感。"],
+      ["12-20", "數列與項", "說明數列是一串依序排列的數，每一個數叫一項。"],
+      ["20-30", "n 與前 5 項", "用 5 格學習單說明 n=1 到 n=5，n 是位置不是答案。"],
+      ["30-38", "老師示範", "示範一般項 n+3 如何代入前 5 項，再投放學生端任務。"],
+      ["38-40", "小組互助", "2 到 3 人討論卡住處，老師只給方向。"],
       ["40-45", "冷卻整理", "請學生補學習單卡關記錄。"]
     ],
     demoQuestion: "若數列的一般項是 n+3，請寫出前 5 項。",
@@ -46,12 +91,57 @@ const lessons = [
       "能看懂下限與上限代表代入範圍。",
       "能把簡單級數逐項展開成加法式。"
     ],
+    guideIntro: "這一節的重點是把「數列」和「級數」分清楚，再慢慢看懂下限、上限與逐項展開。",
+    guideBlocks: [
+      {
+        title: "先複習數列",
+        example: "1, 2, 3, 4, 5",
+        talk: "數列像排隊，把數字依序列出來，先不一定要加起來。",
+        feature: true
+      },
+      {
+        title: "級數是相加",
+        example: "1+2+3+4+5",
+        talk: "級數是把數列中的項加起來。看到級數，要先想到加號。"
+      },
+      {
+        title: "下限是起點",
+        example: "k=1",
+        talk: "下限告訴我們從哪一個 k 開始代入。"
+      },
+      {
+        title: "上限是終點",
+        example: "到 5",
+        talk: "上限告訴我們代入到哪裡停止，不要多算也不要少算。"
+      },
+      {
+        title: "k 只是代號",
+        example: "k、i、j 都可以",
+        talk: "學生常以為換字母就不會，其實它們都只是拿來代入的符號。"
+      },
+      {
+        title: "逐項展開",
+        example: "k=1,2,3,4,5",
+        talk: "先列出每一次要代入的值，再把每一項算出來。"
+      },
+      {
+        title: "用加號連接",
+        example: "1+2+3+4+5",
+        talk: "級數展開後，要用加號連接，不是只寫一串逗號。"
+      },
+      {
+        title: "再進示範題",
+        example: "先圈上下限",
+        talk: "請學生先圈出起點和終點，再看下方示範題。"
+      }
+    ],
     timeline: [
       ["0-5", "登入與回顧", "回顧第 1 節的前 5 項，提醒學生先寫紙本。"],
-      ["5-12", "加法密碼", "用數列 vs 級數的差異建立語言。"],
-      ["12-25", "展開 k", "先圈下限與上限，再依序寫 k=1 到 5。"],
-      ["25-37", "展開 3i+1", "觀察學生是否先代入再用加號連接。"],
-      ["37-43", "小組互助", "讓學生互查漏項、漏加號、漏加 1。"],
+      ["5-13", "數列與級數", "用 1,2,3,4,5 和 1+2+3+4+5 對照，建立差異。"],
+      ["13-21", "上下限", "說明下限是起點、上限是終點，請學生先圈出範圍。"],
+      ["21-30", "逐項展開", "把 k=1 到 5 逐項寫出，再用加號連接。"],
+      ["30-38", "老師示範", "示範 j=2 到 5 的 2j，再投放學生端任務。"],
+      ["38-43", "小組互助", "讓學生互查漏項、漏加號、漏加 1。"],
       ["43-45", "冷卻整理", "收集看不懂 k/i 的學生。"]
     ],
     demoQuestion: "請將 j=2 到 5 的 2j 逐項展開。",
@@ -83,12 +173,57 @@ const lessons = [
       "能分辨 a1、d、n 在題目中代表什麼。",
       "能使用 an=a1+(n-1)d 求等差數列的指定項。"
     ],
+    guideIntro: "這一節先不要急著套公式，先讓學生看懂「前項、後項、公差」如何從同一串數列中出現。",
+    guideBlocks: [
+      {
+        title: "先看一串數列",
+        example: "5, 7, 9, 11, 13",
+        talk: "請學生先說：這串數有沒有順序？每次好像怎麼變化？",
+        feature: true
+      },
+      {
+        title: "前項與後項",
+        example: "5 → 7",
+        talk: "5 是前項，7 是後項。下一組可以看 7 → 9。"
+      },
+      {
+        title: "公差 d",
+        example: "後項 - 前項",
+        talk: "公差就是相鄰兩項固定相差多少，要用後項減前項。"
+      },
+      {
+        title: "一起算一次",
+        example: "7-5=2，9-7=2",
+        talk: "每次都差 2，所以這串數列的公差 d=2。"
+      },
+      {
+        title: "首項 a1",
+        example: "a1=5",
+        talk: "首項就是第一項。這個符號先理解成「第一個數」。"
+      },
+      {
+        title: "第 n 項 an",
+        example: "a8 代表第 8 項",
+        talk: "n 不是答案，它是在問第幾項。先把 n 找出來，再代公式。"
+      },
+      {
+        title: "公式怎麼來",
+        example: "an=a1+(n-1)d",
+        talk: "從第 1 項走到第 n 項，中間一共走 n-1 步，每一步都加公差。"
+      },
+      {
+        title: "再進示範題",
+        example: "a1、d、n 先圈出",
+        talk: "學生能說出三個資訊後，再進到下方老師示範題。"
+      }
+    ],
     timeline: [
-      ["0-5", "登入與暖身", "請學生選獵人身份，快速複習數列是依序排列。"],
-      ["5-12", "找公差", "用 5,7,9,11 示範後項減前項，建立 d 的意義。"],
-      ["12-24", "公式定位", "把 a1、d、n 放入三格表，避免學生直接亂代。"],
-      ["24-34", "第 n 項示範", "示範一題與學生端不同的例題，再讓學生挑戰任務。"],
-      ["34-41", "負公差提醒", "用下降數列提醒負號不能漏，請學生互查學習單。"],
+      ["0-5", "登入與暖身", "請學生選獵人身份，口頭複習：數列是一串依序排列的數。"],
+      ["5-13", "前項與後項", "投影 5,7,9,11,13，先只問 5 到 7、7 到 9 是怎麼變化。"],
+      ["13-20", "建立公差", "用後項減前項算 7-5、9-7、11-9，整理出公差 d=2。"],
+      ["20-27", "首項與第 n 項", "說明 a1 是第一項，an 是第 n 項，n 代表位置不是答案。"],
+      ["27-35", "公式示範", "把 a1、d、n 放入三格表，再示範 an=a1+(n-1)d。"],
+      ["35-41", "學生任務", "投放學生端第 7 到第 10 題，提醒先在學習單圈 a1、d、n。"],
       ["41-45", "冷卻整理", "請學生圈出自己最常漏掉的資訊：a1、d、n 或負號。"]
     ],
     demoQuestion: "已知等差數列首項為 6，公差為 4，求第 8 項。",
@@ -121,12 +256,57 @@ const lessons = [
       "能從生活情境找出首項、公差與目標項。",
       "能判斷應用題是在求第幾項，或是在找超過目標的最小項數。"
     ],
+    guideIntro: "這一節先把應用題拆小：看懂題目情境、畫格子、找首項、公差與目標，再決定用公式或試算。",
+    guideBlocks: [
+      {
+        title: "先不要急著算",
+        example: "圈關鍵字",
+        talk: "應用題第一步先圈數字和關鍵字，例如插入、每多、超過。",
+        feature: true
+      },
+      {
+        title: "插入數要畫格",
+        example: "2, _, _, _, _, 22",
+        talk: "插入 4 個數時，兩端也要算進總項數，所以一共有 6 項。"
+      },
+      {
+        title: "兩端相差幾步",
+        example: "第 1 項到第 6 項",
+        talk: "第 1 項到第 6 項，中間走了 5 步，也就是 5 個公差。"
+      },
+      {
+        title: "生活題找前三項",
+        example: "4, 7, 10",
+        talk: "火柴題先列出前 3 項，比直接套公式更容易看出規則。"
+      },
+      {
+        title: "找首項 a1",
+        example: "第一個情況",
+        talk: "生活題的首項通常是第一週、第一個圖形、第一次紀錄。"
+      },
+      {
+        title: "找公差 d",
+        example: "每次多 3",
+        talk: "題目說每次多、每週增加、每層增加，通常就是公差線索。"
+      },
+      {
+        title: "注意超過",
+        example: "> 42.195",
+        talk: "超過不是等於，Boss 題可以用選項試算，找第一個大於目標的。"
+      },
+      {
+        title: "再進示範題",
+        example: "先畫圖或畫格",
+        talk: "學生能把情境畫出來後，再看下方插入項示範。"
+      }
+    ],
     timeline: [
-      ["0-5", "回顧公式", "用一題口頭快問複習 an=a1+(n-1)d。"],
-      ["5-17", "插入項畫格", "示範把兩端數字與插入數畫成完整格子。"],
-      ["17-28", "火柴情境", "用前 3 項找規則，讓學生看到每次多 3 根。"],
-      ["28-38", "馬拉松試煉", "說明超過目標不是等於目標，適合用選項試算。"],
-      ["38-43", "小組互查", "2 到 3 人互看學習單，確認是否有圈出關鍵數字。"],
+      ["0-5", "回顧公式", "用一題口頭快問複習 an=a1+(n-1)d，提醒先找 a1、d、n。"],
+      ["5-14", "應用題讀題", "先圈插入、每多、超過等關鍵字，不急著計算。"],
+      ["14-25", "插入項畫格", "示範把兩端數字與插入數畫成完整格子，再求公差。"],
+      ["25-34", "生活情境", "用火柴前三項找規則，讓學生看到每次多 3 根。"],
+      ["34-40", "超過目標", "說明超過不是等於，馬拉松題可用選項試算。"],
+      ["40-43", "小組互查", "2 到 3 人互看學習單，確認是否有圈出關鍵數字。"],
       ["43-45", "冷卻整理", "請學生寫下今天最能理解的一種題型。"]
     ],
     demoQuestion: "在 2 與 22 之間插入 4 個數，使其成等差數列，求插入的第 2 個數。",
@@ -158,6 +338,9 @@ let activeLesson = lessons[0];
 const lessonTabs = document.querySelector("#lessonTabs");
 const lessonTag = document.querySelector("#lessonTag");
 const lessonTitle = document.querySelector("#lessonTitle");
+const guidePanel = document.querySelector("#guidePanel");
+const guideIntro = document.querySelector("#guideIntro");
+const guideBlocks = document.querySelector("#guideBlocks");
 const goals = document.querySelector("#goals");
 const flowPanel = document.querySelector("#flowPanel");
 const flowSummary = document.querySelector("#flowSummary");
@@ -212,6 +395,21 @@ function renderTimeline(items) {
   `).join("");
 }
 
+function renderGuide() {
+  const blocks = activeLesson.guideBlocks || [];
+  guidePanel.classList.toggle("empty", blocks.length === 0);
+  if (!blocks.length) return;
+
+  guideIntro.textContent = activeLesson.guideIntro || "先建立概念，再進入示範題。";
+  guideBlocks.innerHTML = blocks.map((block) => `
+    <section class="guide-card ${block.feature ? "feature" : ""}">
+      <strong>${block.title}</strong>
+      <span class="guide-example">${block.example}</span>
+      <p>${block.talk}</p>
+    </section>
+  `).join("");
+}
+
 function updateFlowPanel() {
   flowPanel.classList.toggle("collapsed", !isFlowOpen);
   flowToggle.textContent = isFlowOpen ? "收合" : "展開";
@@ -238,6 +436,7 @@ function render() {
   const url = getStudentUrl();
   lessonTag.textContent = activeLesson.tag;
   lessonTitle.textContent = activeLesson.title;
+  renderGuide();
   renderList(goals, activeLesson.goals);
   flowSummary.textContent = `${activeLesson.timeline.length} 個段落；需要看老師流程時再展開。`;
   renderTimeline(activeLesson.timeline);
