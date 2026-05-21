@@ -46,7 +46,7 @@
     }
     .cards {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 18px;
     }
     a {
@@ -72,6 +72,10 @@
       line-height: 1.5;
     }
     .student strong { color: var(--green); }
+    .teach strong { color: #ffd11a; }
+    @media (max-width: 900px) {
+      .cards { grid-template-columns: 1fr 1fr; }
+    }
     @media (max-width: 720px) {
       .cards { grid-template-columns: 1fr; }
     }
@@ -87,6 +91,10 @@
       <a class="student" href="./student/">
         <strong>學生端</strong>
         <span>選擇獵人身份、完成任務、累積 EXP。</span>
+      </a>
+      <a class="teach" href="./teach/">
+        <strong>教師教學端</strong>
+        <span>切換第 1 節、第 2 節，投放任務與示範題。</span>
       </a>
       <a href="./dashboard/">
         <strong>教師戰情室</strong>

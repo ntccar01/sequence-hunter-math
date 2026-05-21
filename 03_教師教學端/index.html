@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>數列獵人｜教師教學端</title>
+  <link rel="stylesheet" href="./teach.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="mark" aria-hidden="true">T</div>
+      <div>
+        <p class="eyebrow">3-1 等差數列與等差級數</p>
+        <h1>數列獵人｜教師教學端</h1>
+        <p class="subtitle">第 1 節與第 2 節教學操作台</p>
+      </div>
+    </div>
+    <nav class="quick-links" aria-label="教學連結">
+      <a href="../student/" target="_blank" rel="noreferrer">學生端</a>
+      <a href="../dashboard/" target="_blank" rel="noreferrer">戰情室</a>
+    </nav>
+  </header>
+
+  <main class="layout">
+    <aside class="sidebar">
+      <div class="section-title">
+        <h2>選擇節次</h2>
+        <p>先放可上課的前兩節。</p>
+      </div>
+      <div class="lesson-tabs" id="lessonTabs"></div>
+      <div class="teacher-note">
+        <strong>上課節奏</strong>
+        <span>正式任務抓 40 到 45 分鐘，最後保留冷卻、提問與學習單整理。</span>
+      </div>
+    </aside>
+
+    <section class="stage">
+      <div class="stage-head">
+        <div>
+          <p class="eyebrow" id="lessonTag">第 1 節</p>
+          <h2 id="lessonTitle">數列概念與前幾項</h2>
+        </div>
+        <button id="launchButton" type="button">投放學生任務</button>
+      </div>
+
+      <div class="grid">
+        <article class="panel goals-panel">
+          <h3>本節目標</h3>
+          <ul id="goals"></ul>
+        </article>
+
+        <article class="panel flow-panel">
+          <h3>40 分鐘流程</h3>
+          <div class="timeline" id="timeline"></div>
+        </article>
+
+        <article class="panel demo-panel">
+          <h3>老師示範</h3>
+          <div class="demo-card">
+            <p class="demo-label">示範題</p>
+            <p class="demo-question" id="demoQuestion"></p>
+            <div class="demo-steps" id="demoSteps"></div>
+          </div>
+        </article>
+
+        <article class="panel observe-panel">
+          <h3>巡視觀察</h3>
+          <ul id="observe"></ul>
+        </article>
+
+        <article class="panel student-panel">
+          <h3>學生練習</h3>
+          <p id="studentTask"></p>
+          <div class="link-card">
+            <span id="studentUrl"></span>
+            <button id="copyButton" type="button">複製連結</button>
+          </div>
+          <div class="qr-card">
+            <img id="qrImage" alt="學生端 QR Code">
+            <span>可投影給學生掃描。</span>
+          </div>
+        </article>
+
+        <article class="panel close-panel">
+          <h3>收尾檢查</h3>
+          <ul id="checklist"></ul>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <script src="./teach.js"></script>
+</body>
+</html>
