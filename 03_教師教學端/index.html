@@ -23,17 +23,17 @@
   </header>
 
   <main class="layout">
-    <aside class="sidebar">
+    <section class="lesson-bar" aria-label="選擇節次">
       <div class="section-title">
         <h2>選擇節次</h2>
-        <p>先放可上課的前兩節。</p>
+        <p>先放可上課的前兩節，點選後切換教學內容。</p>
       </div>
       <div class="lesson-tabs" id="lessonTabs"></div>
       <div class="teacher-note">
         <strong>上課節奏</strong>
         <span>正式任務抓 40 到 45 分鐘，最後保留冷卻、提問與學習單整理。</span>
       </div>
-    </aside>
+    </section>
 
     <section class="stage">
       <div class="stage-head">
@@ -45,22 +45,6 @@
       </div>
 
       <div class="grid">
-        <article class="panel goals-panel">
-          <h3>本節目標</h3>
-          <ul id="goals"></ul>
-        </article>
-
-        <article class="panel flow-panel collapsed" id="flowPanel">
-          <div class="panel-header">
-            <div>
-              <h3>40 分鐘流程</h3>
-              <p id="flowSummary">點開查看本節教師流程。</p>
-            </div>
-            <button class="toggle-button" id="flowToggle" type="button" aria-expanded="false" aria-controls="timeline">展開</button>
-          </div>
-          <div class="timeline" id="timeline"></div>
-        </article>
-
         <article class="panel demo-panel">
           <h3>老師示範</h3>
           <div class="demo-workbench">
@@ -88,12 +72,32 @@
                   粗細
                   <input id="brushSize" type="range" min="3" max="18" value="7">
                 </label>
+                <label>
+                  橡皮擦
+                  <input id="eraserSize" type="range" min="10" max="60" value="28">
+                </label>
               </div>
               <div class="whiteboard-surface">
                 <canvas id="whiteboard" aria-label="教師白板書寫區"></canvas>
               </div>
             </div>
           </div>
+        </article>
+
+        <article class="panel goals-panel">
+          <h3>本節目標</h3>
+          <ul id="goals"></ul>
+        </article>
+
+        <article class="panel flow-panel collapsed" id="flowPanel">
+          <div class="panel-header">
+            <div>
+              <h3>40 分鐘流程</h3>
+              <p id="flowSummary">點開查看本節教師流程。</p>
+            </div>
+            <button class="toggle-button" id="flowToggle" type="button" aria-expanded="false" aria-controls="timeline">展開</button>
+          </div>
+          <div class="timeline" id="timeline"></div>
         </article>
 
         <article class="panel observe-panel">

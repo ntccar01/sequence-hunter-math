@@ -97,6 +97,7 @@ const copyButton = document.querySelector("#copyButton");
 const whiteboard = document.querySelector("#whiteboard");
 const clearBoardButton = document.querySelector("#clearBoardButton");
 const brushSize = document.querySelector("#brushSize");
+const eraserSize = document.querySelector("#eraserSize");
 const toolButtons = document.querySelectorAll(".tool");
 let isFlowOpen = false;
 let whiteboardContext = null;
@@ -104,6 +105,7 @@ let isDrawing = false;
 let boardTool = "pen";
 let boardColor = "#111827";
 let boardSize = Number(brushSize.value);
+let boardEraserSize = Number(eraserSize.value);
 let lastPoint = null;
 
 function getStudentUrl() {
@@ -168,7 +170,7 @@ function render() {
   studentUrl.textContent = url;
   qrImage.src = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(url)}`;
   renderTabs();
-  resizeWhiteboard(true);
+  requestAnimationFrame(() => resizeWhiteboard(true));
 }
 
 launchButton.addEventListener("click", () => {
@@ -224,7 +226,7 @@ function drawLine(point) {
   if (!whiteboardContext || !lastPoint) return;
   whiteboardContext.globalCompositeOperation = boardTool === "eraser" ? "destination-out" : "source-over";
   whiteboardContext.strokeStyle = boardColor;
-  whiteboardContext.lineWidth = boardTool === "eraser" ? boardSize * 1.8 : boardSize;
+  whiteboardContext.lineWidth = boardTool === "eraser" ? boardEraserSize : boardSize;
   whiteboardContext.beginPath();
   whiteboardContext.moveTo(lastPoint.x, lastPoint.y);
   whiteboardContext.lineTo(point.x, point.y);
@@ -265,6 +267,10 @@ toolButtons.forEach((button) => {
 
 brushSize.addEventListener("input", () => {
   boardSize = Number(brushSize.value);
+});
+
+eraserSize.addEventListener("input", () => {
+  boardEraserSize = Number(eraserSize.value);
 });
 
 clearBoardButton.addEventListener("click", clearWhiteboard);

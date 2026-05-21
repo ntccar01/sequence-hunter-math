@@ -112,12 +112,11 @@ button {
 
 .layout {
   display: grid;
-  grid-template-columns: minmax(280px, 360px) minmax(0, 1fr);
   gap: 22px;
   padding: 16px clamp(18px, 3vw, 42px) 36px;
 }
 
-.sidebar,
+.lesson-bar,
 .stage,
 .panel {
   border: 1px solid var(--line);
@@ -125,12 +124,11 @@ button {
   box-shadow: 0 22px 48px rgba(0, 0, 0, 0.24);
 }
 
-.sidebar {
-  position: sticky;
-  top: 18px;
-  align-self: start;
+.lesson-bar {
   display: grid;
-  gap: 18px;
+  grid-template-columns: minmax(220px, 300px) minmax(0, 1fr) minmax(240px, 330px);
+  align-items: stretch;
+  gap: 16px;
   padding: 24px;
   border-radius: 22px;
 }
@@ -150,14 +148,17 @@ button {
 }
 
 .lesson-tabs {
-  display: grid;
+  display: flex;
   gap: 12px;
+  align-items: stretch;
+  overflow-x: auto;
+  padding-bottom: 4px;
 }
 
 .lesson-tab {
   display: grid;
   gap: 8px;
-  width: 100%;
+  min-width: min(340px, 80vw);
   min-height: 92px;
   padding: 16px 18px;
   border-radius: 18px;
@@ -218,7 +219,7 @@ button {
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 18px;
 }
 
@@ -231,11 +232,12 @@ button {
 
 .flow-panel,
 .student-panel {
-  grid-row: span 2;
+  grid-row: span 1;
 }
 
 .demo-panel {
   grid-column: 1 / -1;
+  order: -1;
 }
 
 .flow-panel.collapsed {
@@ -330,7 +332,7 @@ ul {
 
 .demo-workbench {
   display: grid;
-  grid-template-columns: minmax(300px, 0.9fr) minmax(360px, 1.1fr);
+  grid-template-columns: minmax(300px, 0.7fr) minmax(520px, 1.3fr);
   gap: 18px;
   align-items: stretch;
 }
@@ -366,9 +368,9 @@ ul {
 
 .whiteboard-card {
   display: grid;
-  grid-template-rows: auto auto minmax(280px, 1fr);
+  grid-template-rows: auto auto minmax(420px, 1fr);
   gap: 14px;
-  min-height: 430px;
+  min-height: 600px;
   padding: 18px;
   border-radius: 20px;
   background: rgba(255, 255, 255, 0.08);
@@ -437,7 +439,7 @@ ul {
 }
 
 .whiteboard-surface {
-  min-height: 280px;
+  min-height: 420px;
   border: 3px solid #d8b457;
   border-radius: 18px;
   background:
@@ -450,7 +452,7 @@ ul {
   display: block;
   width: 100%;
   height: 100%;
-  min-height: 280px;
+  min-height: 420px;
   touch-action: none;
   cursor: crosshair;
 }
@@ -504,12 +506,9 @@ ul {
 @media (max-width: 1080px) {
   .layout,
   .grid,
-  .demo-workbench {
+  .demo-workbench,
+  .lesson-bar {
     grid-template-columns: 1fr;
-  }
-
-  .sidebar {
-    position: static;
   }
 }
 
