@@ -498,6 +498,22 @@ ul {
   justify-items: center;
 }
 
+.ai-card {
+  justify-items: stretch;
+}
+
+.ai-card strong {
+  display: block;
+  color: var(--gold);
+  font-size: 22px;
+}
+
+.ai-card div span {
+  display: block;
+  margin-top: 6px;
+  color: var(--muted);
+}
+
 .qr-card img {
   width: 180px;
   height: 180px;
@@ -508,6 +524,20 @@ ul {
 
 .qr-card span {
   color: var(--muted);
+}
+
+.ai-card a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: rgba(63, 130, 255, 0.22);
+  color: #dce9ff;
+  font-weight: 900;
+  text-decoration: none;
 }
 
 @media (max-width: 1080px) {

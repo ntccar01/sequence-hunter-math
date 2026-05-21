@@ -303,6 +303,7 @@ button.active {
   display: flex;
   justify-content: flex-end;
   gap: 12px;
+  flex-wrap: wrap;
 }
 
 #hintButton {
@@ -311,6 +312,25 @@ button.active {
   border-color: #d6a94d;
   color: #ffeebd;
   background: rgba(111, 75, 18, 0.32);
+}
+
+.ai-tutor-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 56px;
+  padding: 0 22px;
+  border: 1px solid rgba(189, 211, 255, 0.3);
+  border-radius: 14px;
+  background: rgba(63, 130, 255, 0.22);
+  color: #dce9ff;
+  font-size: 18px;
+  font-weight: 900;
+  text-decoration: none;
+}
+
+.ai-tutor-link:hover {
+  border-color: var(--gold);
 }
 
 #submitButton {

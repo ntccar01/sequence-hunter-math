@@ -75,6 +75,8 @@ const lessons = [
   }
 ];
 
+const config = window.SEQUENCE_HUNTER_CONFIG || {};
+const aiTutorUrl = config.aiTutorUrl || "https://gemini.google.com/gem/1nUhsjmK36eLZgPn-TbuiQVr8F9llzog8?usp=sharing";
 let activeLesson = lessons[0];
 
 const lessonTabs = document.querySelector("#lessonTabs");
@@ -92,6 +94,8 @@ const studentTask = document.querySelector("#studentTask");
 const checklist = document.querySelector("#checklist");
 const studentUrl = document.querySelector("#studentUrl");
 const qrImage = document.querySelector("#qrImage");
+const aiTutorQrImage = document.querySelector("#aiTutorQrImage");
+const aiTutorTeacherLink = document.querySelector("#aiTutorTeacherLink");
 const launchButton = document.querySelector("#launchButton");
 const copyButton = document.querySelector("#copyButton");
 const whiteboard = document.querySelector("#whiteboard");
@@ -169,6 +173,8 @@ function render() {
   renderList(checklist, activeLesson.checklist);
   studentUrl.textContent = url;
   qrImage.src = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(url)}`;
+  aiTutorQrImage.src = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(aiTutorUrl)}`;
+  aiTutorTeacherLink.href = aiTutorUrl;
   renderTabs();
   requestAnimationFrame(() => resizeWhiteboard(true));
 }

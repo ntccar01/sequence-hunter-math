@@ -11,6 +11,7 @@ let students = Array.from({ length: 15 }, (_, index) => {
 
 const questions = window.SEQUENCE_HUNTER_QUESTIONS;
 const config = window.SEQUENCE_HUNTER_CONFIG || {};
+const aiTutorUrl = config.aiTutorUrl || "https://gemini.google.com/gem/1nUhsjmK36eLZgPn-TbuiQVr8F9llzog8?usp=sharing";
 const storageKey = "sequenceHunterAnswers";
 const sessionKey = "sequenceHunterSession";
 
@@ -31,6 +32,7 @@ const choices = document.querySelector("#choices");
 const answerInput = document.querySelector("#answerInput");
 const hintButton = document.querySelector("#hintButton");
 const submitButton = document.querySelector("#submitButton");
+const aiTutorLink = document.querySelector("#aiTutorLink");
 const hintBox = document.querySelector("#hintBox");
 const feedback = document.querySelector("#feedback");
 
@@ -318,6 +320,7 @@ function submitAnswer() {
 
 hintButton.addEventListener("click", showHint);
 submitButton.addEventListener("click", submitAnswer);
+aiTutorLink.href = aiTutorUrl;
 
 async function init() {
   renderStudents();
