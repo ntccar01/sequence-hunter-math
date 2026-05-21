@@ -30,7 +30,7 @@ body {
   align-items: center;
   justify-content: space-between;
   gap: 24px;
-  padding: 28px clamp(18px, 3vw, 42px) 18px;
+  padding: 20px clamp(18px, 3vw, 42px) 12px;
 }
 
 .brand {
@@ -42,13 +42,13 @@ body {
 .mark {
   display: grid;
   place-items: center;
-  width: 72px;
-  height: 72px;
+  width: 62px;
+  height: 62px;
   flex: 0 0 auto;
   border-radius: 18px;
   background: linear-gradient(180deg, #ffe066, #d8921e);
   color: #241600;
-  font-size: 42px;
+  font-size: 36px;
   font-weight: 900;
   box-shadow: 0 18px 32px rgba(0, 0, 0, 0.28);
 }
@@ -73,12 +73,13 @@ h3 {
 
 h1 {
   margin-top: 4px;
-  font-size: clamp(38px, 5vw, 64px);
+  font-size: clamp(34px, 4vw, 52px);
+  white-space: nowrap;
 }
 
 .subtitle {
-  margin-top: 8px;
-  font-size: 22px;
+  margin-top: 5px;
+  font-size: 19px;
 }
 
 .quick-links {
@@ -126,10 +127,10 @@ button {
 
 .lesson-bar {
   display: grid;
-  grid-template-columns: minmax(220px, 300px) minmax(0, 1fr) minmax(240px, 330px);
+  grid-template-columns: minmax(180px, 240px) minmax(0, 1fr) minmax(160px, 210px);
   align-items: stretch;
   gap: 16px;
-  padding: 24px;
+  padding: 16px 20px;
   border-radius: 22px;
 }
 
@@ -139,11 +140,11 @@ button {
 }
 
 .section-title h2 {
-  font-size: 30px;
+  font-size: 26px;
 }
 
 .section-title p {
-  font-size: 18px;
+  font-size: 16px;
   line-height: 1.55;
 }
 
@@ -158,8 +159,8 @@ button {
 .lesson-tab {
   display: grid;
   gap: 8px;
-  min-width: min(340px, 80vw);
-  min-height: 92px;
+  min-width: min(430px, 88vw);
+  min-height: 104px;
   padding: 16px 18px;
   border-radius: 18px;
   background: var(--panel-2);
@@ -176,26 +177,32 @@ button {
 .lesson-tab small {
   color: inherit;
   opacity: 0.78;
-  font-size: 16px;
+  font-size: 18px;
+  line-height: 1.35;
+}
+
+.lesson-tab span {
+  font-size: 22px;
 }
 
 .teacher-note {
   display: grid;
   gap: 8px;
-  padding: 18px;
-  border-radius: 18px;
+  padding: 12px 14px;
+  border-radius: 14px;
   background: rgba(255, 209, 26, 0.12);
   border: 1px solid rgba(255, 209, 26, 0.34);
 }
 
 .teacher-note strong {
   color: var(--gold);
-  font-size: 22px;
+  font-size: 18px;
 }
 
 .teacher-note span {
   color: var(--muted);
   line-height: 1.55;
+  font-size: 14px;
 }
 
 .stage {
@@ -423,7 +430,7 @@ ul {
 .whiteboard-tools label {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   min-height: 40px;
   padding: 0 12px;
   border: 1px solid var(--line);
@@ -434,7 +441,7 @@ ul {
 }
 
 .whiteboard-tools input {
-  width: 120px;
+  width: 150px;
   accent-color: var(--gold);
 }
 
@@ -525,6 +532,10 @@ ul {
 
   .quick-links {
     justify-content: flex-start;
+  }
+
+  h1 {
+    white-space: normal;
   }
 
   .time-row {
