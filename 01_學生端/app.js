@@ -97,6 +97,126 @@ function loadCloudStudents() {
   });
 }
 
+function loadCloudProgress(studentId) {
+  if (!config.useGoogleSheet || !config.apiUrl || !studentId) {
+    return Promise.resolve(null);
+  }
+
+  return new Promise((resolve, reject) => {
+    const callbackName = `sequenceHunterProgress_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+    const script = document.createElement("script");
+    const separator = config.apiUrl.includes("?") ? "&" : "?";
+    const timeout = window.setTimeout(() => {
+      cleanup();
+      reject(new Error("student progress timeout"));
+    }, 8000);
+
+    function cleanup() {
+      window.clearTimeout(timeout);
+      delete window[callbackName];
+      script.remove();
+    }
+
+    window[callbackName] = (data) => {
+      cleanup();
+      resolve(data);
+    };
+
+    script.onerror = () => {
+      cleanup();
+      reject(new Error("student progress load failed"));
+    };
+
+    script.src = `${config.apiUrl}${separator}action=studentProgress&studentId=${encodeURIComponent(studentId)}&callback=${callbackName}`;
+    document.body.appendChild(script);
+  });
+}
+
+function normalizeBoolean(value) {
+  return value === true || String(value).toUpperCase() === "TRUE";
+}
+
+function normalizeNumber(value, fallback = 0) {
+  const numberValue = Number(value);
+  return Number.isFinite(numberValue) ? numberValue : fallback;
+}
+
+function normalizeTimestamp(value) {
+  const date = new Date(value);
+  return Number.isNaN(date.getTime()) ? new Date().toISOString() : date.toISOString();
+}
+
+function normalizeCloudAnswer(record) {
+  return {
+    ...record,
+    timestamp: normalizeTimestamp(record.timestamp),
+    isCorrect: normalizeBoolean(record.isCorrect),
+    attemptNumber: normalizeNumber(record.attemptNumber, 1),
+    hintUsed: normalizeBoolean(record.hintUsed),
+    hintLevel: normalizeNumber(record.hintLevel, 0),
+    expEarned: normalizeNumber(record.expEarned, 0),
+    deviceNote: record.deviceNote || "cloud-sync"
+  };
+}
+
+function getAnswerKey(record) {
+  return [
+    record.timestamp || "",
+    record.studentId || "",
+    record.levelId || "",
+    record.answerSubmitted || "",
+    record.attemptNumber || ""
+  ].join("|");
+}
+
+function mergeCloudAnswers(records) {
+  if (!Array.isArray(records) || !records.length) return 0;
+
+  const current = getAnswers();
+  const seen = new Set(current.map(getAnswerKey));
+  const additions = records
+    .map(normalizeCloudAnswer)
+    .filter((record) => {
+      const key = getAnswerKey(record);
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+
+  if (additions.length) {
+    setAnswers([...current, ...additions]);
+  }
+  return additions.length;
+}
+
+function getCompletedCount(studentId) {
+  return new Set(
+    getStudentRecords(studentId)
+      .filter((record) => record.isCorrect)
+      .map((record) => record.levelId)
+  ).size;
+}
+
+async function syncStudentProgress(student) {
+  if (!student) return;
+
+  showFeedback("correct", "正在同步雲端進度，稍等一下。");
+  const progress = await loadCloudProgress(student.studentId);
+  if (!progress?.ok || !Array.isArray(progress.answers)) {
+    showFeedback("wrong", "目前讀不到雲端進度，先使用這台裝置的紀錄。");
+    return;
+  }
+
+  mergeCloudAnswers(progress.answers);
+  updateExp();
+  renderMissions();
+  renderQuestion(currentQuestion);
+
+  const completedCount = getCompletedCount(student.studentId);
+  const exp = getExp(student.studentId);
+  showFeedback("correct", `已同步雲端進度：已通關 ${completedCount} 題，累積 ${exp} EXP。`);
+}
+
 async function saveAnswerToCloud(record) {
   if (!config.useGoogleSheet || !config.apiUrl) {
     return { ok: false, skipped: true };
@@ -189,6 +309,10 @@ function renderStudents() {
       renderStudents();
       renderMissions();
       renderQuestion(currentQuestion);
+      syncStudentProgress(student).catch((error) => {
+        console.warn("Cloud progress unavailable; using local records.", error);
+        showFeedback("wrong", "目前讀不到雲端進度，先使用這台裝置的紀錄。");
+      });
     });
     studentGrid.appendChild(button);
   });
