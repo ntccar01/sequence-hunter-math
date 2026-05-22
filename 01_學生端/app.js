@@ -74,7 +74,7 @@ function loadCloudStudents() {
     const timeout = window.setTimeout(() => {
       cleanup();
       reject(new Error("students timeout"));
-    }, 8000);
+    }, 20000);
 
     function cleanup() {
       window.clearTimeout(timeout);
@@ -109,7 +109,7 @@ function loadCloudProgress(studentId) {
     const timeout = window.setTimeout(() => {
       cleanup();
       reject(new Error("student progress timeout"));
-    }, 8000);
+    }, 20000);
 
     function cleanup() {
       window.clearTimeout(timeout);
