@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>數列獵人｜教師戰情室</title>
+  <link rel="stylesheet" href="./dashboard.css">
+</head>
+<body>
+  <main class="war-room">
+    <header class="hero">
+      <div class="brand">
+        <div class="mark" aria-hidden="true">T</div>
+        <div>
+          <h1>數列獵人｜教師戰情室 V3</h1>
+          <p>等差數列與等差級數｜RPG 學習競賽看板</p>
+        </div>
+      </div>
+      <div class="controls">
+        <span class="live">LIVE</span>
+        <span class="updated" id="updatedAt">更新時間：讀取中</span>
+        <button id="refreshButton" type="button">立即更新</button>
+        <button class="danger" id="clearButton" type="button">備份並清空</button>
+      </div>
+    </header>
+
+    <section class="score-strip">
+      <article class="score-card">
+        <strong id="activeCount">0</strong>
+        <span>參與學生</span>
+      </article>
+      <article class="score-card">
+        <strong id="activeGroupCount">0</strong>
+        <span>參與小組</span>
+      </article>
+      <article class="score-card">
+        <strong id="completionRate">0%</strong>
+        <span>全班完成率</span>
+        <div class="bar"><i id="completionBar"></i></div>
+      </article>
+      <article class="score-card">
+        <strong id="totalAttempts">0</strong>
+        <span>總送出次數</span>
+      </article>
+    </section>
+
+    <section class="leader-grid">
+      <article class="board">
+        <h2><span class="icon">G</span> 小組排行榜</h2>
+        <div id="groupRows" class="rank-list"></div>
+      </article>
+
+      <article class="board">
+        <h2><span class="icon">P</span> 個人排行榜 TOP 10</h2>
+        <div id="studentRows" class="rank-list"></div>
+      </article>
+    </section>
+
+    <section class="analysis-grid">
+      <article class="board wide">
+        <h2><span class="icon">Q</span> 錯題／熱題分析</h2>
+        <div id="hotRows" class="hot-list"></div>
+      </article>
+
+      <article class="board">
+        <h2><span class="icon">L</span> 最近戰況</h2>
+        <div class="activity" id="activityLog"></div>
+      </article>
+    </section>
+
+    <footer>
+      資料來源：本機測試紀錄｜之後可切換為 Google Sheet × GAS｜每 5 秒自動更新一次
+    </footer>
+  </main>
+
+  <script src="../config.js"></script>
+  <script src="../01_學生端/questions.js"></script>
+  <script src="./dashboard.js"></script>
+</body>
+</html>
