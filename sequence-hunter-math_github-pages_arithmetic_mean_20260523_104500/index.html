@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>數列獵人｜入口</title>
+  <style>
+    :root {
+      --bg: #0d1628;
+      --bg2: #193a9d;
+      --panel: rgba(18, 31, 54, 0.9);
+      --line: rgba(175, 199, 238, 0.24);
+      --text: #f8fbff;
+      --muted: #bdd3ff;
+      --gold: #ffd11a;
+      --green: #23c56b;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      background: radial-gradient(circle at 12% 0%, rgba(57, 103, 230, 0.9), transparent 42%),
+        linear-gradient(135deg, var(--bg2), var(--bg) 42%, #0a1221 100%);
+      font-family: "Microsoft JhengHei", "Noto Sans TC", Arial, sans-serif;
+    }
+    main {
+      display: grid;
+      min-height: 100vh;
+      align-content: center;
+      gap: 28px;
+      width: min(960px, calc(100% - 36px));
+      margin: 0 auto;
+      padding: 48px 0;
+    }
+    h1 {
+      margin: 0;
+      font-size: clamp(38px, 7vw, 72px);
+      line-height: 1.1;
+    }
+    p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 22px;
+      line-height: 1.6;
+    }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+    a {
+      display: grid;
+      min-height: 190px;
+      align-content: center;
+      gap: 12px;
+      padding: 28px;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: var(--panel);
+      color: var(--text);
+      text-decoration: none;
+      box-shadow: 0 18px 42px rgba(0, 0, 0, 0.32);
+    }
+    a strong {
+      color: var(--gold);
+      font-size: 34px;
+    }
+    a span {
+      color: var(--muted);
+      font-size: 19px;
+      line-height: 1.5;
+    }
+    .student strong { color: var(--green); }
+    .teach strong { color: #ffd11a; }
+    @media (max-width: 900px) {
+      .cards { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 720px) {
+      .cards { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section>
+      <h1>數列獵人</h1>
+      <p>3-1 等差數列與等差級數｜互動式教學入口</p>
+    </section>
+    <section class="cards">
+      <a class="student" href="./student/">
+        <strong>學生端</strong>
+        <span>選擇獵人身份、完成任務、累積 EXP。</span>
+      </a>
+      <a class="teach" href="./teach/">
+        <strong>教師教學端</strong>
+        <span>切換第 1 節、第 2 節，投放任務與示範題。</span>
+      </a>
+      <a href="./dashboard/">
+        <strong>教師戰情室</strong>
+        <span>查看排行榜、完成率、錯題與熱題分析。</span>
+      </a>
+    </section>
+  </main>
+</body>
+</html>
