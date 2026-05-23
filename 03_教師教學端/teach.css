@@ -91,6 +91,9 @@ h1 {
 
 .quick-links a,
 button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   min-height: 52px;
   padding: 0 22px;
   border: 1px solid var(--line);
@@ -391,12 +394,14 @@ ul {
 
 .demo-card {
   display: grid;
-  gap: 14px;
-  padding: 20px;
-  border-radius: 20px;
+  gap: 16px;
+  align-content: start;
+  padding: 24px;
+  border-radius: 24px;
   background: linear-gradient(180deg, #fffdf4, #f8df9a);
   color: #091426;
-  border: 3px solid #d7a436;
+  border: 4px solid #d7a436;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.65), 0 14px 28px rgba(20, 12, 0, 0.18);
 }
 
 .demo-workbench {
@@ -408,11 +413,17 @@ ul {
 
 .demo-label {
   justify-self: start;
-  padding: 5px 12px;
-  border-radius: 999px;
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+  border-radius: 14px;
   background: #5a3306;
   color: #fff8e6;
+  font-size: 18px;
   font-weight: 900;
+  line-height: 1;
 }
 
 .demo-question {
