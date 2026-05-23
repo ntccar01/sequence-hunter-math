@@ -101,6 +101,14 @@ function getChapterLabel(chapterId) {
   return chapterId === "3-2" ? "3-2 等比數列與等比級數" : "3-1 等差數列與等差級數";
 }
 
+function getUnitBaseName(unitName) {
+  return String(unitName || "未分類任務").replace(/^3-[12]\s*/, "");
+}
+
+function getMissionGroupLabel(unitName, chapterId = currentChapter) {
+  return `${chapterId} ${getUnitBaseName(unitName)}`;
+}
+
 function getChapters() {
   return [...new Set(questions.map(getQuestionChapterId))];
 }
@@ -233,7 +241,7 @@ function renderMissionGroups() {
     const option = document.createElement("option");
     const progress = getGroupProgress(group);
     option.value = group;
-    option.textContent = `${group} (${progress.completed}/${progress.total})`;
+    option.textContent = `${getMissionGroupLabel(group)} (${progress.completed}/${progress.total})`;
     option.selected = group === currentMissionGroup;
     missionGroupSelect.appendChild(option);
   });
@@ -511,7 +519,7 @@ function renderMissions() {
       .some((record) => record.levelId === question.levelId && record.isCorrect);
     const button = document.createElement("button");
     button.className = `mission ${currentQuestion.levelId === question.levelId ? "active" : ""}`;
-    button.innerHTML = `<span>${index + 1}. ${question.levelName}</span><small>${question.unitName}${done ? "｜已通關" : ""}</small>`;
+    button.innerHTML = `<span>${index + 1}. ${question.levelName}</span><small>${getMissionGroupLabel(question.unitName, getQuestionChapterId(question))}${done ? "｜已通關" : ""}</small>`;
     button.addEventListener("click", () => renderQuestion(question));
     missionList.appendChild(button);
   });
@@ -524,7 +532,7 @@ function renderQuestion(question) {
   currentMissionGroup = question.unitName || "未分類任務";
   selectedChoice = "";
   hintLevel = 0;
-  unitName.textContent = question.unitName;
+  unitName.textContent = getMissionGroupLabel(question.unitName, currentChapter);
   levelName.textContent = question.levelName;
   difficulty.textContent = question.difficulty;
   questionText.innerHTML = formatMathText(question.question);
