@@ -28,7 +28,23 @@
         <h2>選擇獵人身份</h2>
         <p>選定身份後開始任務；名單會依教師設定更新。</p>
       </div>
-      <div class="student-grid" id="studentGrid"></div>
+      <form class="student-login-form" id="studentLoginForm">
+        <label>
+          班級
+          <input id="classInput" type="text" value="汽車一" placeholder="例如：汽車一" autocomplete="off">
+        </label>
+        <label>
+          座號
+          <input id="seatInput" type="text" placeholder="例如：02" inputmode="numeric" autocomplete="off">
+        </label>
+        <label>
+          姓名
+          <input id="nameInput" type="text" placeholder="例如：林小明" autocomplete="name">
+        </label>
+        <button type="submit">登入任務</button>
+      </form>
+      <div class="student-login-message" id="studentLoginMessage"></div>
+      <div class="student-summary" id="studentSummary" hidden></div>
     </section>
 
     <section class="panel mission-panel">

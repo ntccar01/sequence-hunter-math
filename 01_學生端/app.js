@@ -21,7 +21,12 @@ let currentMissionGroup = questions[0]?.unitName || "";
 let selectedChoice = "";
 let hintLevel = 0;
 
-const studentGrid = document.querySelector("#studentGrid");
+const studentLoginForm = document.querySelector("#studentLoginForm");
+const classInput = document.querySelector("#classInput");
+const seatInput = document.querySelector("#seatInput");
+const nameInput = document.querySelector("#nameInput");
+const studentLoginMessage = document.querySelector("#studentLoginMessage");
+const studentSummary = document.querySelector("#studentSummary");
 const missionList = document.querySelector("#missionList");
 const missionGroupSelect = document.querySelector("#missionGroupSelect");
 const missionGroupProgress = document.querySelector("#missionGroupProgress");
@@ -63,6 +68,101 @@ function setAnswers(records) {
 
 function getStudentDisplayName(student) {
   return student.nickname || student.studentName || student.studentId;
+}
+
+function normalizeStudentText(value) {
+  return String(value || "")
+    .trim()
+    .replace(/\s+/g, "")
+    .replaceAll("袓", "祖");
+}
+
+function normalizeSeat(value) {
+  const digits = String(value || "").match(/\d+/)?.[0] || "";
+  return digits ? String(Number(digits)).padStart(2, "0") : "";
+}
+
+function getStudentSeat(student) {
+  const nicknameSeat = String(student.nickname || "").match(/^(\d{1,2})/);
+  if (nicknameSeat) return normalizeSeat(nicknameSeat[1]);
+  const idSeat = String(student.studentId || "").match(/(\d{1,2})$/);
+  return idSeat ? normalizeSeat(idSeat[1]) : "";
+}
+
+function findStudentByLogin(seat, name) {
+  const targetSeat = normalizeSeat(seat);
+  const targetName = normalizeStudentText(name);
+  return students.find((student) => {
+    if (getStudentSeat(student) !== targetSeat) return false;
+    if (!targetName) return true;
+
+    const studentName = normalizeStudentText(student.studentName);
+    const nickname = normalizeStudentText(student.nickname);
+    return studentName === targetName || nickname.includes(targetName[0] || "");
+  });
+}
+
+function getOverallProgress(studentId) {
+  const completed = getCompletedCount(studentId);
+  return {
+    completed,
+    total: questions.length,
+    remaining: Math.max(questions.length - completed, 0),
+    exp: getExp(studentId)
+  };
+}
+
+function getEncouragement(progress) {
+  if (!currentStudent) return "輸入資料登入後，就能接續你的任務進度。";
+  if (progress.completed >= progress.total) return "太好了，你已經把目前任務都完成了，可以挑戰下一段學習。";
+  if (progress.completed >= Math.ceil(progress.total * 0.7)) return "你已經完成大部分任務了，再補上未通關關卡就很完整。";
+  if (progress.completed > 0) return "已經有進度了，照著關卡一步一步推進就可以。";
+  return "先從第一個任務開始，遇到卡關可以用提示或詢問老師。";
+}
+
+function renderStudentSummary() {
+  if (!studentSummary) return;
+  if (!currentStudent) {
+    studentSummary.hidden = true;
+    return;
+  }
+
+  const progress = getOverallProgress(currentStudent.studentId);
+  const groupProgress = getGroupProgress(currentMissionGroup);
+  studentSummary.hidden = false;
+  studentSummary.innerHTML = `
+    <div class="welcome-card">
+      <p class="welcome-kicker">歡迎登入</p>
+      <h3>${escapeHtml(getStudentDisplayName(currentStudent))}</h3>
+      <p>${escapeHtml(currentStudent.groupName || "")}｜${escapeHtml(classInput?.value || "汽車一")}</p>
+    </div>
+    <div class="progress-grid">
+      <div><strong>${progress.completed}</strong><span>已完成</span></div>
+      <div><strong>${progress.remaining}</strong><span>未完成</span></div>
+      <div><strong>${progress.exp}</strong><span>EXP</span></div>
+    </div>
+    <p class="chapter-progress">目前章節：${groupProgress.completed}/${groupProgress.total} 題已通關</p>
+    <p class="encouragement">${getEncouragement(progress)}</p>
+    <button type="button" class="switch-student" id="switchStudentButton">重新登入</button>
+  `;
+
+  document.querySelector("#switchStudentButton")?.addEventListener("click", () => {
+    currentStudent = null;
+    studentBadge.textContent = "尚未登入";
+    updateExp();
+    renderLoginPanel();
+    renderMissionGroups();
+  });
+}
+
+function renderLoginPanel() {
+  if (!studentLoginForm || !studentSummary) return;
+  studentLoginForm.hidden = Boolean(currentStudent);
+  if (studentLoginMessage) {
+    studentLoginMessage.textContent = "";
+    studentLoginMessage.className = "student-login-message";
+  }
+  renderStudentSummary();
 }
 
 function getMissionGroups() {
@@ -378,6 +478,7 @@ function renderMissions() {
     button.addEventListener("click", () => renderQuestion(question));
     missionList.appendChild(button);
   });
+  renderStudentSummary();
 }
 
 function renderQuestion(question) {
@@ -494,6 +595,48 @@ function submitAnswer() {
 
 hintButton.addEventListener("click", showHint);
 submitButton.addEventListener("click", submitAnswer);
+function renderStudents() {
+  renderLoginPanel();
+}
+
+async function loginStudent(event) {
+  event.preventDefault();
+  const seat = seatInput?.value || "";
+  const name = nameInput?.value || "";
+  const student = findStudentByLogin(seat, name);
+
+  if (!normalizeSeat(seat) || !normalizeStudentText(name)) {
+    studentLoginMessage.textContent = "請輸入座號與姓名，例如：座號 02，姓名 林小明。";
+    studentLoginMessage.className = "student-login-message wrong";
+    return;
+  }
+
+  if (!student) {
+    studentLoginMessage.textContent = "找不到這位學生，請確認座號是否正確，或請老師協助。";
+    studentLoginMessage.className = "student-login-message wrong";
+    return;
+  }
+
+  currentStudent = student;
+  studentBadge.textContent = `獵人 ${getStudentDisplayName(student)}｜${student.groupName}`;
+  studentLoginMessage.textContent = "登入成功，正在同步雲端進度。";
+  studentLoginMessage.className = "student-login-message correct";
+  updateExp();
+  renderStudents();
+  renderMissions();
+  renderQuestion(currentQuestion);
+
+  try {
+    await syncStudentProgress(student);
+    renderStudentSummary();
+  } catch (error) {
+    console.warn("Cloud progress unavailable; using local records.", error);
+    showFeedback("wrong", "目前讀不到雲端進度，先使用這台裝置的紀錄。");
+    renderStudentSummary();
+  }
+}
+
+studentLoginForm?.addEventListener("submit", loginStudent);
 missionGroupSelect.addEventListener("change", () => {
   currentMissionGroup = missionGroupSelect.value;
   const firstQuestion = getQuestionsInCurrentGroup()[0];
