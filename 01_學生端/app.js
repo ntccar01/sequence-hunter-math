@@ -455,6 +455,8 @@ function formatMathText(value) {
   let text = escapeHtml(value)
     .replace(/\br\^\(n-1\)/g, () => stash('<span class="math"><var>r</var><sup>n-1</sup></span>'))
     .replace(/\b(\d+)\^\(n-1\)/g, (_, base) => stash(`<span class="math">${base}<sup>n-1</sup></span>`))
+    .replace(/\b([a-zA-Z])\^\((\d+-1)\)/g, (_, base, exponent) => stash(`<span class="math"><var>${base}</var><sup>${exponent}</sup></span>`))
+    .replace(/\b(\d+)\^\((\d+-1)\)/g, (_, base, exponent) => stash(`<span class="math">${base}<sup>${exponent}</sup></span>`))
     .replace(/\bn\^2\b/g, () => stash('<span class="math"><var>n</var><sup>2</sup></span>'))
     .replace(/\b([a-zA-Z])\^(\d+)\b/g, (_, base, exponent) => stash(`<span class="math"><var>${base}</var><sup>${exponent}</sup></span>`))
     .replace(/\b(\d+)\^(\d+)\b/g, (_, base, exponent) => stash(`<span class="math">${base}<sup>${exponent}</sup></span>`))
