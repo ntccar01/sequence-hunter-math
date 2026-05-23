@@ -130,7 +130,7 @@ button {
 
 .lesson-bar {
   display: grid;
-  grid-template-columns: minmax(180px, 240px) minmax(0, 1fr) minmax(160px, 210px);
+  grid-template-columns: minmax(170px, 220px) minmax(180px, 250px) minmax(0, 1fr) minmax(150px, 190px);
   align-items: stretch;
   gap: 16px;
   padding: 16px 20px;
@@ -149,6 +149,29 @@ button {
 .section-title p {
   font-size: 16px;
   line-height: 1.55;
+}
+
+.chapter-tabs {
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+}
+
+.chapter-tab {
+  min-height: 48px;
+  padding: 10px 14px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text);
+  font-size: 16px;
+  font-weight: 900;
+  text-align: left;
+  box-shadow: none;
+}
+
+.chapter-tab.active {
+  background: linear-gradient(180deg, #ffdc51, #c89023);
+  color: #201400;
 }
 
 .lesson-tabs {
@@ -186,6 +209,22 @@ button {
 
 .lesson-tab span {
   font-size: 22px;
+}
+
+.math {
+  display: inline-block;
+  white-space: nowrap;
+  font-family: "Cambria Math", "Times New Roman", serif;
+}
+
+.math var {
+  font-style: italic;
+}
+
+.math sup,
+.math sub {
+  font-size: 0.7em;
+  line-height: 0;
 }
 
 .teacher-note {

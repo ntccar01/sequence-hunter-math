@@ -18,6 +18,7 @@ const sessionKey = "sequenceHunterSession";
 let currentStudent = null;
 let currentQuestion = questions[0];
 let currentMissionGroup = questions[0]?.unitName || "";
+let currentChapter = "3-1";
 let selectedChoice = "";
 let hintLevel = 0;
 
@@ -28,6 +29,7 @@ const nameInput = document.querySelector("#nameInput");
 const studentLoginMessage = document.querySelector("#studentLoginMessage");
 const studentSummary = document.querySelector("#studentSummary");
 const missionList = document.querySelector("#missionList");
+const missionChapterSelect = document.querySelector("#missionChapterSelect");
 const missionGroupSelect = document.querySelector("#missionGroupSelect");
 const missionGroupProgress = document.querySelector("#missionGroupProgress");
 const studentBadge = document.querySelector("#studentBadge");
@@ -87,6 +89,24 @@ function getStudentSeat(student) {
   if (nicknameSeat) return normalizeSeat(nicknameSeat[1]);
   const idSeat = String(student.studentId || "").match(/(\d{1,2})$/);
   return idSeat ? normalizeSeat(idSeat[1]) : "";
+}
+
+function getQuestionChapterId(question) {
+  const levelId = String(question?.levelId || "");
+  if (levelId.startsWith("3-2")) return "3-2";
+  return "3-1";
+}
+
+function getChapterLabel(chapterId) {
+  return chapterId === "3-2" ? "3-2 等比數列與等比級數" : "3-1 等差數列與等差級數";
+}
+
+function getChapters() {
+  return [...new Set(questions.map(getQuestionChapterId))];
+}
+
+function getQuestionsInCurrentChapter() {
+  return questions.filter((question) => getQuestionChapterId(question) === currentChapter);
 }
 
 function findStudentByLogin(seat, name) {
@@ -166,15 +186,17 @@ function renderLoginPanel() {
 }
 
 function getMissionGroups() {
-  return [...new Set(questions.map((question) => question.unitName || "未分類任務"))];
+  return [...new Set(getQuestionsInCurrentChapter().map((question) => question.unitName || "未分類任務"))];
 }
 
 function getQuestionsInCurrentGroup() {
-  return questions.filter((question) => (question.unitName || "未分類任務") === currentMissionGroup);
+  return getQuestionsInCurrentChapter()
+    .filter((question) => (question.unitName || "未分類任務") === currentMissionGroup);
 }
 
 function getGroupProgress(unitName) {
-  const groupQuestions = questions.filter((question) => (question.unitName || "未分類任務") === unitName);
+  const groupQuestions = getQuestionsInCurrentChapter()
+    .filter((question) => (question.unitName || "未分類任務") === unitName);
   const completed = currentStudent
     ? groupQuestions.filter((question) => getStudentRecords(currentStudent.studentId)
       .some((record) => record.levelId === question.levelId && record.isCorrect)).length
@@ -187,6 +209,19 @@ function getGroupProgress(unitName) {
 
 function renderMissionGroups() {
   if (!missionGroupSelect) return;
+
+  if (missionChapterSelect) {
+    const chapters = getChapters();
+    if (!chapters.includes(currentChapter)) currentChapter = chapters[0] || "3-1";
+    missionChapterSelect.innerHTML = "";
+    chapters.forEach((chapter) => {
+      const option = document.createElement("option");
+      option.value = chapter;
+      option.textContent = getChapterLabel(chapter);
+      option.selected = chapter === currentChapter;
+      missionChapterSelect.appendChild(option);
+    });
+  }
 
   const groups = getMissionGroups();
   if (!groups.includes(currentMissionGroup)) {
@@ -410,6 +445,8 @@ function formatMathText(value) {
   };
 
   let text = escapeHtml(value)
+    .replace(/\br\^\(n-1\)/g, () => stash('<span class="math"><var>r</var><sup>n-1</sup></span>'))
+    .replace(/\b(\d+)\^\(n-1\)/g, (_, base) => stash(`<span class="math">${base}<sup>n-1</sup></span>`))
     .replace(/\bn\^2\b/g, () => stash('<span class="math"><var>n</var><sup>2</sup></span>'))
     .replace(/\ba(\d+)\b/g, (_, subscript) => stash(`<span class="math"><var>a</var><sub>${subscript}</sub></span>`))
     .replace(/\ban\b/g, () => stash('<span class="math"><var>a</var><sub>n</sub></span>'))
@@ -483,6 +520,7 @@ function renderMissions() {
 
 function renderQuestion(question) {
   currentQuestion = question;
+  currentChapter = getQuestionChapterId(question);
   currentMissionGroup = question.unitName || "未分類任務";
   selectedChoice = "";
   hintLevel = 0;
@@ -637,6 +675,16 @@ async function loginStudent(event) {
 }
 
 studentLoginForm?.addEventListener("submit", loginStudent);
+missionChapterSelect?.addEventListener("change", () => {
+  currentChapter = missionChapterSelect.value;
+  currentMissionGroup = getMissionGroups()[0] || "";
+  const firstQuestion = getQuestionsInCurrentGroup()[0];
+  if (firstQuestion) {
+    renderQuestion(firstQuestion);
+  } else {
+    renderMissions();
+  }
+});
 missionGroupSelect.addEventListener("change", () => {
   currentMissionGroup = missionGroupSelect.value;
   const firstQuestion = getQuestionsInCurrentGroup()[0];

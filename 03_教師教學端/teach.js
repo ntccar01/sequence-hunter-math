@@ -657,8 +657,14 @@
 
 const config = window.SEQUENCE_HUNTER_CONFIG || {};
 const aiTutorUrl = config.aiTutorUrl || "https://gemini.google.com/gem/1nUhsjmK36eLZgPn-TbuiQVr8F9llzog8?usp=sharing";
+const chapters = [
+  { id: "3-1", label: "3-1 等差數列與等差級數" },
+  { id: "3-2", label: "3-2 等比數列與等比級數" }
+];
+let activeChapterId = "3-1";
 let activeLesson = lessons[0];
 
+const chapterTabs = document.querySelector("#chapterTabs");
 const lessonTabs = document.querySelector("#lessonTabs");
 const lessonTag = document.querySelector("#lessonTag");
 const lessonTitle = document.querySelector("#lessonTitle");
@@ -695,6 +701,44 @@ let boardSize = Number(brushSize.value);
 let boardEraserSize = Number(eraserSize.value);
 let lastPoint = null;
 
+function escapeHtml(value) {
+  return String(value || "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+function formatMathText(value) {
+  const tokens = [];
+  const stash = (html) => {
+    const key = `@@MATH_${tokens.length}@@`;
+    tokens.push([key, html]);
+    return key;
+  };
+
+  let text = escapeHtml(value)
+    .replace(/\br\^\(n-1\)/g, () => stash('<span class="math"><var>r</var><sup>n-1</sup></span>'))
+    .replace(/\b(\d+)\^\(n-1\)/g, (_, base) => stash(`<span class="math">${base}<sup>n-1</sup></span>`))
+    .replace(/\bn\^2\b/g, () => stash('<span class="math"><var>n</var><sup>2</sup></span>'))
+    .replace(/\ba1\b/g, () => stash('<span class="math"><var>a</var><sub>1</sub></span>'))
+    .replace(/\ban\b/g, () => stash('<span class="math"><var>a</var><sub>n</sub></span>'));
+
+  tokens.forEach(([key, html]) => {
+    text = text.replaceAll(key, html);
+  });
+  return text;
+}
+
+function getLessonChapterId(lesson) {
+  return lesson.id.startsWith("lesson-3-2") ? "3-2" : "3-1";
+}
+
+function getLessonsInActiveChapter() {
+  return lessons.filter((lesson) => getLessonChapterId(lesson) === activeChapterId);
+}
+
 function getStudentUrl() {
   const path = window.location.pathname;
   const base = path.includes("/03_%E6%95%99%E5%B8%AB%E6%95%99%E5%AD%B8%E7%AB%AF/")
@@ -704,7 +748,7 @@ function getStudentUrl() {
 }
 
 function renderList(target, items) {
-  target.innerHTML = items.map((item) => `<li>${item}</li>`).join("");
+  target.innerHTML = items.map((item) => `<li>${formatMathText(item)}</li>`).join("");
 }
 
 function renderTimeline(items) {
@@ -712,8 +756,8 @@ function renderTimeline(items) {
     <div class="time-row">
       <strong>${time} 分</strong>
       <div>
-        <span>${title}</span>
-        <small>${note}</small>
+        <span>${formatMathText(title)}</span>
+        <small>${formatMathText(note)}</small>
       </div>
     </div>
   `).join("");
@@ -724,12 +768,12 @@ function renderGuide() {
   guidePanel.classList.toggle("empty", blocks.length === 0);
   if (!blocks.length) return;
 
-  guideIntro.textContent = activeLesson.guideIntro || "先建立概念，再進入示範題。";
+  guideIntro.innerHTML = formatMathText(activeLesson.guideIntro || "先建立概念，再進入示範題。");
   guideBlocks.innerHTML = blocks.map((block) => `
     <section class="guide-card ${block.feature ? "feature" : ""}">
-      <strong>${block.title}</strong>
-      <span class="guide-example">${block.example}</span>
-      <p>${block.talk}</p>
+      <strong>${formatMathText(block.title)}</strong>
+      <span class="guide-example">${formatMathText(block.example)}</span>
+      <p>${formatMathText(block.talk)}</p>
     </section>
   `).join("");
 }
@@ -741,7 +785,12 @@ function updateFlowPanel() {
 }
 
 function renderTabs() {
-  lessonTabs.innerHTML = lessons.map((lesson) => `
+  const chapterLessons = getLessonsInActiveChapter();
+  if (!chapterLessons.some((lesson) => lesson.id === activeLesson.id)) {
+    activeLesson = chapterLessons[0] || lessons[0];
+  }
+
+  lessonTabs.innerHTML = chapterLessons.map((lesson) => `
     <button class="lesson-tab ${lesson.id === activeLesson.id ? "active" : ""}" type="button" data-lesson="${lesson.id}">
       <span>${lesson.tag}｜${lesson.title}</span>
       <small>${lesson.subtitle}</small>
@@ -756,6 +805,23 @@ function renderTabs() {
   });
 }
 
+function renderChapterTabs() {
+  if (!chapterTabs) return;
+  chapterTabs.innerHTML = chapters.map((chapter) => `
+    <button class="chapter-tab ${chapter.id === activeChapterId ? "active" : ""}" type="button" data-chapter="${chapter.id}">
+      ${chapter.label}
+    </button>
+  `).join("");
+
+  chapterTabs.querySelectorAll("button").forEach((button) => {
+    button.addEventListener("click", () => {
+      activeChapterId = button.dataset.chapter || "3-1";
+      activeLesson = getLessonsInActiveChapter()[0] || lessons[0];
+      render();
+    });
+  });
+}
+
 function render() {
   const url = getStudentUrl();
   lessonTag.textContent = activeLesson.tag;
@@ -765,15 +831,16 @@ function render() {
   flowSummary.textContent = `${activeLesson.timeline.length} 個段落；需要看老師流程時再展開。`;
   renderTimeline(activeLesson.timeline);
   updateFlowPanel();
-  demoQuestion.textContent = activeLesson.demoQuestion;
-  demoSteps.innerHTML = activeLesson.demoSteps.map((step, index) => `<div>${index + 1}. ${step}</div>`).join("");
+  demoQuestion.innerHTML = formatMathText(activeLesson.demoQuestion);
+  demoSteps.innerHTML = activeLesson.demoSteps.map((step, index) => `<div>${index + 1}. ${formatMathText(step)}</div>`).join("");
   renderList(observe, activeLesson.observe);
-  studentTask.textContent = activeLesson.studentTask;
+  studentTask.innerHTML = formatMathText(activeLesson.studentTask);
   renderList(checklist, activeLesson.checklist);
   studentUrl.textContent = url;
   qrImage.src = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(url)}`;
   aiTutorQrImage.src = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(aiTutorUrl)}`;
   aiTutorTeacherLink.href = aiTutorUrl;
+  renderChapterTabs();
   renderTabs();
   requestAnimationFrame(() => resizeWhiteboard(true));
 }
