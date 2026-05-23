@@ -456,6 +456,8 @@ function formatMathText(value) {
     .replace(/\br\^\(n-1\)/g, () => stash('<span class="math"><var>r</var><sup>n-1</sup></span>'))
     .replace(/\b(\d+)\^\(n-1\)/g, (_, base) => stash(`<span class="math">${base}<sup>n-1</sup></span>`))
     .replace(/\bn\^2\b/g, () => stash('<span class="math"><var>n</var><sup>2</sup></span>'))
+    .replace(/\b([a-zA-Z])\^(\d+)\b/g, (_, base, exponent) => stash(`<span class="math"><var>${base}</var><sup>${exponent}</sup></span>`))
+    .replace(/\b(\d+)\^(\d+)\b/g, (_, base, exponent) => stash(`<span class="math">${base}<sup>${exponent}</sup></span>`))
     .replace(/\ba(\d+)\b/g, (_, subscript) => stash(`<span class="math"><var>a</var><sub>${subscript}</sub></span>`))
     .replace(/\ban\b/g, () => stash('<span class="math"><var>a</var><sub>n</sub></span>'))
     .replace(/\bd\b/g, () => stash('<span class="math"><var>d</var></span>'))
@@ -549,7 +551,7 @@ function renderQuestion(question) {
       const letter = String.fromCharCode(65 + index);
       const button = document.createElement("button");
       button.className = "choice";
-      button.textContent = `${letter}. ${choice}`;
+      button.innerHTML = `${letter}. ${formatMathText(choice)}`;
       button.addEventListener("click", () => {
         selectedChoice = letter;
         document.querySelectorAll(".choice").forEach((item) => item.classList.remove("active"));

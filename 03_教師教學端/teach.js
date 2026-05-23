@@ -652,6 +652,91 @@
       "錯題是否集中在用減法或不會除法。",
       "下節課是否需要先補：公比是倍數，不是差。"
     ]
+  },
+  {
+    id: "lesson-3-2-2",
+    tag: "第 2 節",
+    title: "一般項與第 n 項",
+    subtitle: "3-2 p.2-p.5｜公式定位、指定項、反推首項",
+    goals: [
+      "能說出等比數列一般項 an=a1×r^(n-1) 的意思。",
+      "能判斷第 n 項需要乘公比 n-1 次。",
+      "能依首項、公比與項數求指定項。",
+      "能在簡單題目中反推首項或判斷公式。"
+    ],
+    guideIntro: "這一節不急著擴充到插入等比項，先把一般項公式用熟。學生要先知道公式每個位置代表什麼，再進入第 n 項計算。",
+    guideBlocks: [
+      {
+        title: "回到乘幾次",
+        example: "第 1 項不用乘",
+        talk: "先回顧上節：從首項開始，第 2 項乘 1 次，第 3 項乘 2 次。公式的指數就是在數這件事。",
+        feature: true
+      },
+      {
+        title: "三個必要資訊",
+        example: "a1、r、n",
+        talk: "每次求第 n 項，都先圈出首項 a1、公比 r、要找第幾項 n。缺一個就先不要算。"
+      },
+      {
+        title: "n-1 的位置感",
+        example: "第 7 項乘 6 次",
+        talk: "請學生用手指數：從第 1 項走到第 7 項，中間走了 6 步，所以指數是 6。"
+      },
+      {
+        title: "代入不是背答案",
+        example: "a7=a1×r^(7-1)",
+        talk: "先把 n 換成 7，再把 a1 和 r 放進去。讓學生看到公式是代入流程，不是突然冒出來的。"
+      },
+      {
+        title: "正公比先穩住",
+        example: "2, 6, 18, ...",
+        talk: "低成就學生先用正公比建立成功經驗，再慢慢加入負公比。"
+      },
+      {
+        title: "負公比看正負跳動",
+        example: "2, -6, 18, -54",
+        talk: "負公比會讓正負號交替，先觀察符號，再計算數字。"
+      },
+      {
+        title: "反推首項",
+        example: "a3=a1×r^2",
+        talk: "如果題目給第 3 項和公比，就先把公式寫出來，再想哪個數乘完會變成已知項。"
+      },
+      {
+        title: "生活情境也一樣",
+        example: "每小時變 2 倍",
+        talk: "生活題先翻譯成首項、公比、項數，再回到同一個公式處理。"
+      }
+    ],
+    timeline: [
+      ["0-5", "登入與回顧", "回顧等比看倍數，口頭問：公比要用加法還是除法？"],
+      ["5-12", "乘幾次觀察", "用第 1 到第 5 項對照乘 0、1、2、3、4 次。"],
+      ["12-22", "公式定位", "把 an=a1×r^(n-1) 拆成 a1、r、n 三個欄位。"],
+      ["22-31", "指定項示範", "老師示範首項 5、公比 2，求第 6 項，白板保留每一步。"],
+      ["31-37", "反推首項", "示範已知 a3 與 r 時，先列式再反推。"],
+      ["37-42", "投放學生任務", "學生完成等比一般項章節，先在學習單圈 a1、r、n。"],
+      ["42-45", "冷卻整理", "學生寫一句：第 n 項會乘公比 n-1 次。"]
+    ],
+    demoQuestion: "若等比數列首項為 5，公比為 2，請求第 6 項，並寫出一般項。",
+    demoSteps: [
+      "先圈資訊：a1=5，r=2，n=6。",
+      "第 6 項表示從第 1 項往後走 5 步，所以要乘 5 次。",
+      "代入：a6=5×2^(6-1)。",
+      "先在白板寫成 5×2×2×2×2×2，再讓學生自己完成乘法。",
+      "一般項可寫成 an=5×2^(n-1)。"
+    ],
+    observe: [
+      "學生是否把第 n 項誤認為要乘 n 次。",
+      "學生是否能先圈出 a1、r、n 再代入。",
+      "學生遇到負公比時是否忽略正負號交替。",
+      "學生是否把等比公式和等差公式混在一起。"
+    ],
+    studentTask: "學生端完成「等比一般項」章節：指數定位、公式辨認、求第 n 項、反推首項與生活情境。",
+    checklist: [
+      "戰情室確認等比一般項任務完成率。",
+      "若第 n 項錯很多，下節先補 n-1 的位置感。",
+      "若負公比錯很多，先用正負號交替圖像補強。"
+    ]
   }
 ];
 
@@ -722,7 +807,9 @@ function formatMathText(value) {
     .replace(/\br\^\(n-1\)/g, () => stash('<span class="math"><var>r</var><sup>n-1</sup></span>'))
     .replace(/\b(\d+)\^\(n-1\)/g, (_, base) => stash(`<span class="math">${base}<sup>n-1</sup></span>`))
     .replace(/\bn\^2\b/g, () => stash('<span class="math"><var>n</var><sup>2</sup></span>'))
-    .replace(/\ba1\b/g, () => stash('<span class="math"><var>a</var><sub>1</sub></span>'))
+    .replace(/\b([a-zA-Z])\^(\d+)\b/g, (_, base, exponent) => stash(`<span class="math"><var>${base}</var><sup>${exponent}</sup></span>`))
+    .replace(/\b(\d+)\^(\d+)\b/g, (_, base, exponent) => stash(`<span class="math">${base}<sup>${exponent}</sup></span>`))
+    .replace(/\ba(\d+)\b/g, (_, subscript) => stash(`<span class="math"><var>a</var><sub>${subscript}</sub></span>`))
     .replace(/\ban\b/g, () => stash('<span class="math"><var>a</var><sub>n</sub></span>'));
 
   tokens.forEach(([key, html]) => {
