@@ -17,11 +17,14 @@ const sessionKey = "sequenceHunterSession";
 
 let currentStudent = null;
 let currentQuestion = questions[0];
+let currentMissionGroup = questions[0]?.unitName || "";
 let selectedChoice = "";
 let hintLevel = 0;
 
 const studentGrid = document.querySelector("#studentGrid");
 const missionList = document.querySelector("#missionList");
+const missionGroupSelect = document.querySelector("#missionGroupSelect");
+const missionGroupProgress = document.querySelector("#missionGroupProgress");
 const studentBadge = document.querySelector("#studentBadge");
 const expBadge = document.querySelector("#expBadge");
 const unitName = document.querySelector("#unitName");
@@ -60,6 +63,50 @@ function setAnswers(records) {
 
 function getStudentDisplayName(student) {
   return student.nickname || student.studentName || student.studentId;
+}
+
+function getMissionGroups() {
+  return [...new Set(questions.map((question) => question.unitName || "未分類任務"))];
+}
+
+function getQuestionsInCurrentGroup() {
+  return questions.filter((question) => (question.unitName || "未分類任務") === currentMissionGroup);
+}
+
+function getGroupProgress(unitName) {
+  const groupQuestions = questions.filter((question) => (question.unitName || "未分類任務") === unitName);
+  const completed = currentStudent
+    ? groupQuestions.filter((question) => getStudentRecords(currentStudent.studentId)
+      .some((record) => record.levelId === question.levelId && record.isCorrect)).length
+    : 0;
+  return {
+    completed,
+    total: groupQuestions.length
+  };
+}
+
+function renderMissionGroups() {
+  if (!missionGroupSelect) return;
+
+  const groups = getMissionGroups();
+  if (!groups.includes(currentMissionGroup)) {
+    currentMissionGroup = groups[0] || "";
+  }
+
+  missionGroupSelect.innerHTML = "";
+  groups.forEach((group) => {
+    const option = document.createElement("option");
+    const progress = getGroupProgress(group);
+    option.value = group;
+    option.textContent = `${group} (${progress.completed}/${progress.total})`;
+    option.selected = group === currentMissionGroup;
+    missionGroupSelect.appendChild(option);
+  });
+
+  const currentProgress = getGroupProgress(currentMissionGroup);
+  missionGroupProgress.textContent = currentStudent
+    ? `本章節進度：${currentProgress.completed}/${currentProgress.total} 題已通關`
+    : `本章節共有 ${currentProgress.total} 題，選擇獵人身份後會顯示進度。`;
 }
 
 function loadCloudStudents() {
@@ -319,8 +366,10 @@ function renderStudents() {
 }
 
 function renderMissions() {
+  renderMissionGroups();
   missionList.innerHTML = "";
-  questions.forEach((question, index) => {
+  const visibleQuestions = getQuestionsInCurrentGroup();
+  visibleQuestions.forEach((question, index) => {
     const done = currentStudent && getStudentRecords(currentStudent.studentId)
       .some((record) => record.levelId === question.levelId && record.isCorrect);
     const button = document.createElement("button");
@@ -333,6 +382,7 @@ function renderMissions() {
 
 function renderQuestion(question) {
   currentQuestion = question;
+  currentMissionGroup = question.unitName || "未分類任務";
   selectedChoice = "";
   hintLevel = 0;
   unitName.textContent = question.unitName;
@@ -444,6 +494,15 @@ function submitAnswer() {
 
 hintButton.addEventListener("click", showHint);
 submitButton.addEventListener("click", submitAnswer);
+missionGroupSelect.addEventListener("change", () => {
+  currentMissionGroup = missionGroupSelect.value;
+  const firstQuestion = getQuestionsInCurrentGroup()[0];
+  if (firstQuestion) {
+    renderQuestion(firstQuestion);
+  } else {
+    renderMissions();
+  }
+});
 aiTutorLink.href = aiTutorUrl;
 
 async function init() {
