@@ -1,0 +1,5 @@
+levelId	levelName	unitName	questionType	sourceType	question	choiceA	choiceB	choiceC	choiceD	answer	formulaHint	symbolNote	thinkingGuide	worksheetHint	difficulty	gameMode	teacherNote
+3-1-L7-Q1	中項概念	等差中項	singleChoice	warmup	若 b 是 a 與 c 的等差中項，b 應該等於哪一個？	(a+c)/2	a+c	c-a	a-c	A	等差中項 = 前後兩項的平均。	b=(a+c)/2	先把 a 與 c 看成左右兩端，b 要站在正中間。	在學習單畫三格：a、b、c，b 在中間。	easy	warmup	確認學生知道平均要除以 2。
+3-1-L7-Q2	平均公式	等差中項	shortAnswer	example	試求 -12 與 28 的等差中項。					8	b=(-12+28)/2	前後平均	先圈出前後兩數，再列平均式，最後結果自己算。	在學習單寫：b=(-12+28)/2，再自己完成計算。	easy	main	注意負數與正數相加是否出錯。
+3-1-L7-Q3	判斷等差	等差中項	singleChoice	practice	下列哪一組的中間數是前後兩數的等差中項？	4, 7, 10	4, 8, 10	5, 7, 12	6, 9, 15	A	左差 = 右差	等差中項檢查	用「中項-前項」和「後項-中項」比較。	在每個選項旁邊寫出兩個差，再比較。	medium	practice	訓練學生用差來驗證，不只靠感覺。
+3-1-L7-Q4	未知數反推	等差中項	shortAnswer	challenge	若 3x+1 與 4x-5 的等差中項為 12，求 x 值。					4	12=[(3x+1)+(4x-5)]/2	中項反推	先列平均式，再兩邊同乘 2，整理成只剩 x 的等式。	在學習單先完成列式，再把括號內同類項合併。	hard	challenge	提示不得直接給最後 x 值。

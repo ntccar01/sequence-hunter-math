@@ -1,0 +1,10 @@
+levelId	levelName	unitName	questionType	sourceType	question	choiceA	choiceB	choiceC	choiceD	answer	formulaHint	symbolNote	thinkingGuide	worksheetHint	difficulty	gameMode	teacherNote
+3-1-L5-Q1	Sigma 入門	Σ 符號	singleChoice	warmup	符號 Σ 在級數中主要表示什麼意思？	把許多項加起來	把所有數相乘	只取第一項	只看最大值	A	Σ 讀作 sigma；summation 是總和。	Σ=總和	看到 Σ，先想到從下限到上限逐項代入後相加，再回到選項判斷。	在學習單圈出 Σ，旁邊寫上「總和」。	easy	warmup	先建立符號意義，不急著計算。
+3-1-L5-Q2	上下限偵查	Σ 符號	singleChoice	warmup	Σ 從 k=1 到 5，代表 k 要依序代入哪些數？	1,2,3,4,5	0,1,2,3,4	5,6,7,8,9	只有 1 和 5	A	下限是起點，上限是終點。	k=1 到 5	要包含中間整數，不只看頭尾。	在學習單先寫 k=1,2,3,4,5。	easy	warmup	檢查學生是否漏掉中間項。
+3-1-L5-Q3	逐項展開	Σ 符號	shortAnswer	example	請將 Σ k（k=1 到 5）逐項展開。					1+2+3+4+5	k=1,2,3,4,5	Σk	先列代入值，再自己用加號連接。	在學習單先寫上下限，再逐項代入。	medium	main	對應課本例 2 的第一種展開。
+3-1-L5-Q4	代入展開	Σ 符號	shortAnswer	practice	請將 Σ(3i+1)（i=1 到 5）逐項展開。					4+7+10+13+16	i=1,2,3,4,5	Σ(3i+1)	每一項都要先代入再計算，最後自己用加號連起來。	在學習單畫 5 格，分別代入 i=1 到 5。	medium	practice	注意學生是否漏掉 +1。
+3-1-L5-Q5	常數級數	Σ 符號	shortAnswer	practice	請計算 Σ 3（n=1 到 6）的值。					18	Σ3=3+3+3+3+3+3=?	常數級數	中間沒有 n，表示每一項都是 3，最後結果自己算。	在學習單寫出 6 個 3，再相加。	medium	practice	對應課本例 2 的常數型。
+3-1-L5-Q6	無窮符號	Σ 符號	singleChoice	practice	Σ 的上限若是 ∞，代表這個級數有什麼特徵？	有無窮多項	只有一項	一定等於 0	不能展開	A	∞ 讀作無限大。	上限 ∞	上限不是有限數，表示項數無窮多。	在學習單把 ∞ 圈起來，旁邊寫「無窮多項」。	easy	practice	建立有限級數與無窮級數差異。
+3-1-L6-Q1	拆開性質	Σ 的運算	singleChoice	warmup	Σ(a_k+b_k) 可以改寫成哪一個？	Σa_k+Σb_k	Σa_k×Σb_k	a_k+b_k	Σ(a_k×b_k)	A	加法可以拆成兩個總和。	加法拆開	把 a 的部分和 b 的部分分成兩堆，再回到選項判斷。	在學習單把 a 的部分與 b 的部分用不同顏色圈起來。	medium	main	先講分堆概念，再講公式。
+3-1-L6-Q2	性質代入	Σ 的運算	shortAnswer	example	已知 Σa_k=15，Σb_k=23，求 Σ(3a_k+b_k) 的值。					68	Σ(3a_k+b_k)=3Σa_k+Σb_k	常數倍提出	先拆開，再代入 15 與 23，最後結果自己算。	先寫拆開式，再代入已知數字。	hard	challenge	對應課本例 3 第 1 題。
+3-1-L6-Q3	常數補給	Σ 的運算	shortAnswer	practice	已知 Σa_k=15，Σb_k=23，且 k=1 到 10，求 Σ(2a_k-b_k+1) 的值。					17	Σ(2a_k-b_k+1)=2Σa_k-Σb_k+Σ1	Σ1=10	別忘了 +1 要加 10 次，最後結果自己算。	別忘了 +1 也要加 10 次。	hard	boss	對應課本例 3 第 2 題。

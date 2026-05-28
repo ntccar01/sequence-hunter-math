@@ -1,0 +1,7 @@
+levelId	levelName	unitName	questionType	sourceType	question	choiceA	choiceB	choiceC	choiceD	answer	formulaHint	symbolNote	thinkingGuide	worksheetHint	difficulty	gameMode	teacherNote
+3-2-L2-Q1	指數定位	3-2 等比一般項	singleChoice	warmup	在 an=a1×r^(n-1) 中，若要求第 8 項，指數 n-1 會是多少？	7	8	9	1	A	n-1	第 n 項要乘公比 n-1 次	從第 1 項走到第 8 項，數一數中間有幾步。	在學習單畫第 1 項到第 8 項的箭頭，數一數有幾段。	easy	warmup	若學生選 8，代表把第幾項直接當成乘幾次。
+3-2-L2-Q2	公式辨認	3-2 等比一般項	singleChoice	main	若等比數列首項為 4，公比為 3，下列哪一個是它的一般項？	an=4×3^(n-1)	an=3×4^(n-1)	an=4+3(n-1)	an=3+4(n-1)	A	an=a1×r^(n-1)	a1 是首項，r 是公比	先圈首項 4、公比 3，再放到公式對應位置。	在公式旁標出 a1=4、r=3。	easy	main	檢查學生是否把等比公式和等差公式混用。
+3-2-L2-Q3	第 n 項定位	3-2 等比一般項	shortAnswer	main	若等比數列首項為 3，公比為 2，請求第 5 項。					48	an=a1×r^(n-1)	a1=3, r=2, n=5	第 5 項要從第 1 項往後乘 4 次。	在學習單列：第1項、第2項、第3項、第4項、第5項。	medium	main	要求學生先寫出 a1、r、n，不要直接心算。
+3-2-L2-Q4	負比挑戰	3-2 等比一般項	shortAnswer	practice	若等比數列首項為 2，公比為 -3，請求第 4 項。					-54	an=a1×r^(n-1)	負公比會正負交替	先寫 2, -6, 18，再繼續到第 4 項。	在每一格上方標示正負號，再做乘法。	hard	challenge	負公比題只要求少量，避免本節主軸失焦。
+3-2-L2-Q5	反推首項	3-2 等比一般項	shortAnswer	practice	已知等比數列第 3 項為 36，公比為 3，請求首項。					4	a3=a1×r^2	a3 是第 3 項	先列 36=a1×3×3，再反推 a1。	在學習單先寫出 a3=a1×r^(3-1)。	medium	practice	若學生卡住，先讓他們完成列式即可。
+3-2-L2-Q6	倍數情境	3-2 等比一般項	shortAnswer	application	某細菌第 1 小時有 10 個，之後每小時變成 2 倍，請問第 6 小時有幾個？					320	an=a1×r^(n-1)	a1=10, r=2, n=6	先翻譯成首項、公比、項數，再代入。	在學習單畫時間線：第1小時到第6小時。	medium	application	生活題重點是翻譯，不是加深計算難度。

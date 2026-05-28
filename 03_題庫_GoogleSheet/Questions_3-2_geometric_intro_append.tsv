@@ -1,0 +1,7 @@
+levelId	levelName	unitName	questionType	sourceType	question	choiceA	choiceB	choiceC	choiceD	answer	formulaHint	symbolNote	thinkingGuide	worksheetHint	difficulty	gameMode	teacherNote
+3-2-L1-Q1	等比偵查	3-2 等比數列與公比	singleChoice	warmup	下列哪一串最像等比數列？	3, 6, 12, 24	3, 6, 9, 12	2, 5, 8, 11	1, 2, 4, 7	A	等比數列是每次乘同一個數。	公比 r	不要先看相差多少，先看倍數是否固定。	在學習單寫出每一組相鄰兩項的倍數。	easy	warmup	若學生選等差數列，需回頭強化「等差看差，等比看比」。
+3-2-L1-Q2	公比追蹤	3-2 等比數列與公比	singleChoice	main	等比數列 3, 6, 12, 24 的公比是多少？	2	3	6	12	A	r=後項÷前項	公比	先算 6÷3，再算 12÷6 檢查。	在學習單寫：r=6÷3，再用 12÷6 檢查。	easy	main	提醒學生公比不是用減法。
+3-2-L1-Q3	前五項展開	3-2 等比數列與公比	shortAnswer	example	若等比數列首項為 2，公比為 3，請寫出前 5 項。					2,6,18,54,162	a1=2, r=3	首項與公比	從首項開始，每次乘 3，寫到第 5 項。	在學習單畫 5 個格子，從 2 開始每格乘 3。	medium	main	提示不得直接給最後完整序列。
+3-2-L1-Q4	符號辨認	3-2 等比數列與公比	singleChoice	practice	在 an=a1×r^(n-1) 中，r 代表什麼？	公比	公差	首項	項數	A	an=a1×r^(n-1)	r 是公比	r 是每次要乘的固定倍數。	在公式旁標記：a1 是首項，r 是公比，n 是第幾項。	easy	practice	對比 3-1 的 d 是公差。
+3-2-L1-Q5	是否等比	3-2 等比數列與公比	singleChoice	practice	下列哪一串不是等比數列？	2, 4, 8, 16	5, 10, 20, 40	3, 9, 27, 81	4, 8, 12, 16	D	後項÷前項要固定	等比檢查	每一串至少檢查兩組相鄰兩項的比。	每個選項至少算兩次後項÷前項。	medium	practice	學生容易被 4,8,12,16 的等差規律混淆。
+3-2-L1-Q6	生活倍數	3-2 等比數列與公比	shortAnswer	application	某遊戲道具每升一級攻擊力變成 2 倍，若第 1 級攻擊力是 5，請寫出前 4 級攻擊力。					5,10,20,40	a1=5, r=2	倍數成長	第 1 級是 5，每升一級乘 2，寫到第 4 級。	在學習單畫 4 格：第 1 級、第 2 級、第 3 級、第 4 級。	medium	application	可用遊戲升級情境提高參與感。

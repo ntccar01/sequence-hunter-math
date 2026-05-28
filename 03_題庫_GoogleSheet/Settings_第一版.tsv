@@ -1,0 +1,14 @@
+settingKey	settingValue	note
+courseName	數學	課程名稱
+unitName	3-1 等差數列與等差級數 p.1-p.12	本次 MVP 單元
+defaultGroupSize	3	預設 3 人一組，老師可在 Students 工作表自行調整
+loginMode	studentId	第一版用 S01 到 S15 登入
+showLeaderboard	TRUE	是否顯示排行榜
+allowRetry	TRUE	是否允許答錯後再挑戰
+maxHintLevel	3	提示層級：公式提示、代號說明、下一步引導
+warmupExp	10	暖身題 EXP
+mainExp	20	主線題 EXP
+challengeExp	25	挑戰題 EXP
+bossExp	40	Boss 題 EXP
+noHintBonusExp	5	不使用提示通關加分
+groupCompleteBonusExp	20	小組全員完成加分

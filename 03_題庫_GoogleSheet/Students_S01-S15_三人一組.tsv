@@ -1,0 +1,16 @@
+studentId	studentName	nickname	groupId	groupName	role	isActive	note
+S01	S01	S01	G01	第1組	student	TRUE	
+S02	S02	S02	G01	第1組	student	TRUE	
+S03	S03	S03	G01	第1組	student	TRUE	
+S04	S04	S04	G02	第2組	student	TRUE	
+S05	S05	S05	G02	第2組	student	TRUE	
+S06	S06	S06	G02	第2組	student	TRUE	
+S07	S07	S07	G03	第3組	student	TRUE	
+S08	S08	S08	G03	第3組	student	TRUE	
+S09	S09	S09	G03	第3組	student	TRUE	
+S10	S10	S10	G04	第4組	student	TRUE	
+S11	S11	S11	G04	第4組	student	TRUE	
+S12	S12	S12	G04	第4組	student	TRUE	
+S13	S13	S13	G05	第5組	student	TRUE	
+S14	S14	S14	G05	第5組	student	TRUE	
+S15	S15	S15	G05	第5組	student	TRUE	
