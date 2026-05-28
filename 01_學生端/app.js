@@ -93,16 +93,18 @@ function getStudentSeat(student) {
 
 function getQuestionChapterId(question) {
   const levelId = String(question?.levelId || "");
+  if (levelId.startsWith("3-3")) return "3-3";
   if (levelId.startsWith("3-2")) return "3-2";
   return "3-1";
 }
 
 function getChapterLabel(chapterId) {
+  if (chapterId === "3-3") return "3-3 遞迴關係與數學歸納法";
   return chapterId === "3-2" ? "3-2 等比數列與等比級數" : "3-1 等差數列與等差級數";
 }
 
 function getUnitBaseName(unitName) {
-  return String(unitName || "未分類任務").replace(/^3-[12]\s*/, "");
+  return String(unitName || "未分類任務").replace(/^3-[123]\s*/, "");
 }
 
 function getMissionGroupLabel(unitName, chapterId = currentChapter) {
